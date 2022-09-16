@@ -83,9 +83,12 @@ void input_cmd (CMD_ARR *arr, BUF *buf) {
 }
 
 
-void exec_cmd (CMD cmd) {
+size_t exec_cmd (CMD cmd) {
 
-    execvp (cmd.opt[0], cmd.opt);
+    if (execvp (cmd.opt[0], cmd.opt) == -1)
+        return EXEC_CMD_ERROR;
+    
+    return NO_ERROR;
 }
 
 

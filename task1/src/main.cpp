@@ -1,6 +1,12 @@
 #include "header.hpp"
 
 
+#define CHECK_ERR(NO_ERR) do {                                                                      \
+                        if (error != NO_ERR) {fprintf (stderr, "ERR: %u LINE: %u\n", error, __LINE__); \
+                                     _exit (error);}                                        \
+                    }while (0)
+
+
 int main (void) {
 
     BUF buf = {};
@@ -27,31 +33,50 @@ int main (void) {
 
         for (size_t i = 0; i <= arr.cmd_num; ++i) {
 
-            pipe(p);
-                
-            if ((pid = fork()) < 0) {
-                _exit(1);
+            if (pipe(p) == -1) {
+                perror ("PIPE ERROR");
+                return PIPE_ERROR;
             }
+
+
+            if ((pid = fork()) < 0) {
+                perror ("FORK ERROR");
+                return FORK_ERROR;
+            }
+
             else if (pid == 0) {
-            
-                if (i > 0)
-                    dup2 (fd_in, 0);
+                
+                int error = 0;
 
-                if (i != arr.cmd_num)
-                    dup2(p[1], 1);
+                if (i > 0) {
+                    error = dup2 (fd_in, STDIN);
+                    CHECK_ERR(STDIN);
+                }
 
-                close(p[0]);
+                if (i != arr.cmd_num) {
+                    error = dup2 (p[1], STDOUT);
+                    // fprintf (stderr, "%d\n\n", error);
+                    CHECK_ERR(STDOUT);
+                }
 
-                exec_cmd (arr.cmd[i]);
+                error = close(p[0]);
+                CHECK_ERR(NO_ERROR);
 
-                _exit(2);
-
+                error = exec_cmd (arr.cmd[i]);
+                CHECK_ERR(NO_ERROR);
+                
+                _exit (NO_ERROR);
             }
             else {
 
                 int status = 0;
 
                 waitpid (pid, &status, 0);
+
+                if (status != 0) {
+                    perror ("ERROR IN CHILD");
+                    return status;
+                }
 
                 close(p[1]);
 
