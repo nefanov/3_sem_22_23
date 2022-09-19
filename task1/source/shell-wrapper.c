@@ -160,7 +160,6 @@ void seq_pipe(char* cmd)
 int main()
 {
     char* cmd = (char*)calloc(CMDLINESIZE, sizeof(char));
-    char a;
     while(1) //mb fork bomb 
     {   
         fgets(cmd, CMDLINESIZE, stdin);
