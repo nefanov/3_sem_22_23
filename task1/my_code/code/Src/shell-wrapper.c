@@ -17,7 +17,7 @@ int main(void)
     while(1)
     {
 
-        printf("EBUSH\\\\> ");
+        printf("COMAND\\\\> ");
 
         comand_rp(&com);
 
