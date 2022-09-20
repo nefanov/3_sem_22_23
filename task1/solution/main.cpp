@@ -1,7 +1,18 @@
 #include "io.hpp"
-#include "solve.hpp"
+#include "parsing.hpp"
 #include <unistd.h>
 #include <sys/wait.h> 
+
+void destruct(char *str, char ***prsses_p, struct command_line cmd) {
+    free(str);
+    free(prsses_p);
+
+    for (size_t i = 0; i < cmd.n_prsses; i++) {
+        free(cmd.prss[i].args);
+    }
+
+    free(cmd.prss);
+}
 
 void seq_pipe(char ***cmd)
 {
@@ -51,13 +62,5 @@ int main() {
 
     seq_pipe(prsses_p);
 
-    free(str);
-    free(prsses_p);
-
-    for (size_t i = 0; i < cmd.n_prsses; i++) {
-        free(cmd.prss[i].args);
-    }
-
-    free(cmd.prss);
-
+    destruct(str, prsses_p, cmd);
 }
