@@ -20,62 +20,72 @@ enum
 
 int main (int argc, char* argv[], char* envp[])
 {
-    const char* test_cmd = "/home/matmuh/test_mashell/meow.ex";
+    const char  *test_m = "/home/matmuh/test_mashell/meow.exe",
+                *test_n = "/home/matmuh/test_mashell/heighbour.exe",
+                *test_g = "/home/matmuh/test_mashell/gav.exe",
+                *test_s = "/home/matmuh/test_mashell/say.exe";
 
-    int pipefd[2] = {};
-    if (pipe(pipefd))
+    const char* cmd[] = {test_m, test_s, NULL}; // first cmd variant
+
+
+    const char** begunok = cmd;
+    // int pipefd[2] = {};
+    // if (pipe(pipefd))
+    // {
+    //     PRINT_ERROR(strerror(errno));
+    //     return ERROR;
+    // }
+
+    while (*begunok)
     {
-        PRINT_ERROR(strerror(errno));
-        return ERROR;
-    }
+        pid_t pid = fork();
 
-    pid_t pid = fork();
-
-    if (pid < 0)
-    {
-        PRINT_ERROR(strerror(errno));
-        return ERROR;
-    }
-    if (pid == CHILD)
-    {
-        close(pipefd[READ_FD]); // Writer
-
-        char c = 'g';
-        while (c != 'q')
-        {
-            write(pipefd[WRITE_FD], &c, 1);
-            c = getchar();
-        }
-
-        puts("[INFO] Child left writing cycle");
-
-        if (execve(test_cmd, NULL, NULL) == ERROR)
+        if (pid < 0)
         {
             PRINT_ERROR(strerror(errno));
             return ERROR;
         }
-    }
-    else // parent
-    {
-        close(pipefd[WRITE_FD]); // Reader
-
-        char c = 0;
-        while (c != 'a')
+        if (pid == CHILD)
         {
-            read(pipefd[READ_FD], &c, 1);
-        }
-        puts("[INFO] Parent left reading cycle");
+            // close(pipefd[READ_FD]); // Writer
 
-        int wstatus = 0;
-        if (waitpid(pid, &wstatus, 0) == ERROR)
+            // char c = 'g';
+            // while (c != 'q')
+            // {
+            //     write(pipefd[WRITE_FD], &c, 1);
+            //     c = getchar();
+            // }
+
+            // puts("[INFO] Child left writing cycle");
+
+            if (execve(*begunok, NULL, NULL) == ERROR)
+            {
+                PRINT_ERROR(strerror(errno));
+                return ERROR;
+            }
+        }
+        else // parent
         {
-            PRINT_ERROR(strerror(errno));
-            return ERROR;
+        //     close(pipefd[WRITE_FD]); // Reader
+
+        //     char c = 0;
+        //     while (c != 'a')
+        //     {
+        //         read(pipefd[READ_FD], &c, 1);
+        //     }
+        //     puts("[INFO] Parent left reading cycle");
+
+            int wstatus = 0;
+            if (waitpid(pid, &wstatus, 0) == ERROR)
+            {
+                PRINT_ERROR(strerror(errno));
+                return ERROR;
+            }
+
+            begunok++;
+            printf("[INFO] Child %u exited with code %d\n", pid, WEXITSTATUS(wstatus));
         }
-
-        printf("[INFO] Child %u exited with code %d\n", pid, WEXITSTATUS(wstatus));
     }
-
 
     return 0;    
 }

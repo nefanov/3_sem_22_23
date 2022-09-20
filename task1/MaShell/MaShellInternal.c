@@ -1,6 +1,6 @@
 #include <MaShell.h>
 
-char* findPathEnvVar(char* envp[])
+char* findPathEnvVar(char* envp[]) // getenv
 {
     const char search_pattern[] = "PATH=";
     const size_t pattern_len = sizeof search_pattern / sizeof search_pattern[0] - 1; // not consider '\0'
