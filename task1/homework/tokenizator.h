@@ -9,8 +9,8 @@
 
 enum CMD
 {
-    MAX_NUM_TOKENS  = 127,
-    CMD_MAX_SIZE    = 256,
+    MAX_NUM_TOKENS  = 1048576,
+    CMD_MAX_SIZE    = 2097152,
 };
 
 enum CMD_ERRORS
