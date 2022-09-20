@@ -1,2 +1,3 @@
 all:
-	g++ *.cpp -o g_shell -Wall -Wextra -Wpedantic
+	g++ -fsanitize=address \
+ *.cpp -o g_shell -Wall -Wextra -Wpedantic

@@ -41,18 +41,22 @@ char **get_tokens(char *str) {
 struct process get_process_info(char *token) {
     assert(token);
 
-    size_t n_args = get_n_words(token) - 1;
+    size_t n_args = get_n_words(token);
 
     char delim[] = " \n";
 
     struct process prss;
     prss.name = strtok(token, delim);
 
-    char **args = (char **) calloc(n_args, sizeof(char *));
+    char **args = (char **) calloc(n_args + 1, sizeof(char *));
+    assert(args);
+    args[0] = prss.name;
 
-    for (size_t i = 0; i < n_args; i++) {
+    for (size_t i = 1; i < n_args; i++) {
         args[i] = strtok(NULL, delim);
     }
+
+    args[n_args] = NULL;
 
     prss.args = args;
 
@@ -83,9 +87,9 @@ struct command_line parse(char *str) {
 
     for (size_t i = 0; i < n_prsses; i++) {
         cmd.prss[i] = get_process_info(tokens[i]);
-
-        // printf("%d\n", i);
     }
+
+    cmd.n_prsses = n_prsses;
 
     return cmd;
 }

@@ -14,6 +14,7 @@ struct process {
 
 struct command_line {
     struct process *prss = NULL;
+    size_t n_prsses = 0;
 };
 
 char **get_tokens(char *str);
