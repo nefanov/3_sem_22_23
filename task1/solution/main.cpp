@@ -49,18 +49,24 @@ void seq_pipe(char ***cmd)
 
 int main() {
     char *str = NULL;
-    input(&str);    
-    command_line cmd = parse(str);
+    command_line cmd;
 
-    char ***prsses_p = (char ***) calloc(cmd.n_prsses + 1, sizeof(char **));
+    char ***prsses_p = NULL;
+    
+    while (1) {
+        input(&str);  
+        cmd = parse(str);
+        prsses_p = (char ***) calloc(cmd.n_prsses + 1, sizeof(char **));
 
-    for (size_t i = 0; i < cmd.n_prsses; i++) {
-        prsses_p[i] = cmd.prss[i].args;
+        for (size_t i = 0; i < cmd.n_prsses; i++) {
+            prsses_p[i] = cmd.prss[i].args;
+        }
+        
+        prsses_p[cmd.n_prsses] = NULL;
+
+        seq_pipe(prsses_p);
     }
 
-    prsses_p[cmd.n_prsses] = NULL;
-
-    seq_pipe(prsses_p);
-
     destruct(str, prsses_p, cmd);
+
 }
