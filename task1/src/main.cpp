@@ -1,9 +1,9 @@
 #include "header.hpp"
 
 
-#define CHECK_ERR(NO_ERR) do {                                                                      \
-                        if (error != NO_ERR) {fprintf (stderr, "ERR: %u LINE: %u\n", error, __LINE__); \
-                                     _exit (error);}                                        \
+#define CHECK_ERR(NO_ERR) do {                                                                          \
+                        if (error != NO_ERR) {fprintf (stderr, "ERR: %u LINE: %u\n", error, __LINE__);  \
+                                     _exit (error);}                                                    \
                     }while (0)
 
 
