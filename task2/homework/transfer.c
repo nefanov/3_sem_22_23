@@ -40,7 +40,7 @@ void constructPipe(Pipe* self)
 }
 
 
-ssize_t readDuplex(Pipe* self, int curFd, size_t PartOfBuffer)
+ssize_t readDuplex(Pipe* self, int curFd)
 {
     ssize_t tmp = read(curFd, self->dataIn, MAXBUFSIZE);
 
@@ -48,7 +48,7 @@ ssize_t readDuplex(Pipe* self, int curFd, size_t PartOfBuffer)
 }
 
 
-ssize_t writeDuplex(Pipe* self, int curFd, size_t PartOfBuffer)
+ssize_t writeDuplex(Pipe* self, int curFd)
 {
     ssize_t tmp = write(curFd, self->dataIn, MAXBUFSIZE);
 
@@ -75,22 +75,21 @@ void run(Pipe* self)
         //----------------------------------------------------------------
 
         for (size_t i = 0; i < self->lenParts; i++)
-            self->actions.rcv(self, self->fdChild[0], i);
+            self->actions.rcv(self, self->fdChild[0]);
 
         if ((tmpSize - MAXBUFSIZE * self->lenParts) != 0)
         {
-            self->actions.rcv(self, self->fdChild[0], self->lenParts);
+            self->actions.rcv(self, self->fdChild[0]);
         }
         //----------------------------------------------------------------
 
         for (size_t i = 0; i < self->lenParts; i++)
         {
-            self->actions.send(self, self->fdParent[1], i);
-            fprintf(stdout, "%lu\n", i);
+            self->actions.send(self, self->fdParent[1]);
         }
         if ((tmpSize - MAXBUFSIZE * self->lenParts) != 0)
         {
-            self->actions.send(self, self->fdParent[1], self->lenParts);
+            self->actions.send(self, self->fdParent[1]);
         }
 
         //----------------------------------------------------------------
@@ -104,13 +103,12 @@ void run(Pipe* self)
         for (size_t i = 0; i < self->lenParts; i++)
         {
             fread(self->dataIn, sizeof(char), MAXBUFSIZE, parent);
-            self->actions.send(self, self->fdChild[1], i);
-            fprintf(stdout, "%lu\n", i);
+            self->actions.send(self, self->fdChild[1]);
         }
         if ((self->len - MAXBUFSIZE * self->lenParts) != 0) 
         {
             fread(self->dataIn, sizeof(char), MAXBUFSIZE, parent);
-            self->actions.send(self, self->fdChild[1], self->lenParts);
+            self->actions.send(self, self->fdChild[1]);
         }
         //--------------------------------------------------------------------------------------------------------------
         fclose(parent);
@@ -120,12 +118,12 @@ void run(Pipe* self)
 
         for (size_t i = 0; i < self->lenParts; i++)
         {
-            self->actions.rcv(self, self->fdParent[0], i);
+            self->actions.rcv(self, self->fdParent[0]);
             fwrite(self->dataIn, sizeof(char), MAXBUFSIZE, child);
         }
         if ((self->len - MAXBUFSIZE * self->lenParts) != 0) 
         {
-            self->actions.rcv(self, self->fdParent[0], self->lenParts);
+            self->actions.rcv(self, self->fdParent[0]);
             fwrite(self->dataIn, sizeof(char), MAXBUFSIZE, child);
         }
         //--------------------------------------------------------------------------------------------------------------

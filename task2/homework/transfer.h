@@ -17,8 +17,8 @@ typedef struct op_table Ops;
 
 typedef struct op_table  
 {
-    ssize_t (*rcv) (Pipe *self, int curFd, size_t PartOfBuffer); 
-    ssize_t (*send)(Pipe *self, int curFd, size_t PartOfBuffer); 
+    ssize_t (*rcv) (Pipe *self, int curFd); 
+    ssize_t (*send)(Pipe *self, int curFd); 
 } Ops;
 
 typedef struct pPipe 
@@ -37,9 +37,9 @@ typedef struct pPipe
 
 void constructPipe(Pipe* self);
 
-ssize_t readDuplex(Pipe* self, int curFd, size_t PartOfBuffer);
+ssize_t readDuplex(Pipe* self, int curFd);
 
-ssize_t writeDuplex(Pipe* self, int curFd, size_t PartOfBuffer);
+ssize_t writeDuplex(Pipe* self, int curFd);
 
 size_t findFileSize(FILE* f);
 
