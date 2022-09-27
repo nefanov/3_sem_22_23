@@ -15,4 +15,4 @@ run:
 
 gen:
 # time dd if=/dev/urandom of=io/input bs=1048576 count=4096
-	time dd if=/dev/urandom of=io/input bs=20000 count=100000
+	time dd if=/dev/urandom of=io/input bs=1000000 count=4000

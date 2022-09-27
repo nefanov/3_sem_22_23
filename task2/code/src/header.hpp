@@ -18,30 +18,30 @@ struct Class_;
 size_t get_filesize (FILE *in);
 void coder (size_t num, char *buf);
 size_t decoder (char *buf);
-size_t receive (Class_ *class_, int fd);
-size_t send    (Class_ *class_, int fd);
+int receive (Class_ *class_, int fd, int *error);
+int send (Class_ *class_, int fd, int *error);
 
 
 const size_t MAX_LENSIZE_BYTES = 11;
-
+const size_t MAX_BUF_SIZE      = 2048;
 
 
 typedef struct {
 
-    size_t (*rcv)(Class_ *, int) = receive;
-    size_t (*snd)(Class_ *, int) = send;
+    int (*rcv)(Class_ *, int, int *) = receive;
+    int (*snd)(Class_ *, int, int *) = send;
     
 } Interface;
 
 
 typedef struct Class_ {
 
-        char *buf = nullptr;   // intermediate buffer
+        char *buf = nullptr;
         
-        int fd_direct[2] {};    // array of r/w descriptors for "pipe()" call (for parent-->child direction)
-        int fd_back  [2] {};      // array of r/w descriptors for "pipe()" call (for child-->parent direction)
+        int fd_direct[2] {};
+        int fd_back  [2] {};
         
-        size_t len = 0;         // data length in intermediate buffer
+        size_t len = 0;
         
         Interface interface {};
 } Class_;
