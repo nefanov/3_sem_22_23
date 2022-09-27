@@ -9,5 +9,5 @@ int main()
 
     run(&duplex);
 
-    destructPipe(&duplex);
+    free(duplex.dataIn);
 }

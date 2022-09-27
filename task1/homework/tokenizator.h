@@ -9,8 +9,8 @@
 
 enum CMD
 {
-    MAX_NUM_TOKENS  = 1048576,
-    CMD_MAX_SIZE    = 2097152,
+    MAX_NUM_TOKENS  = 256,
+    CMD_MAX_SIZE    = 155,
 };
 
 enum CMD_ERRORS
@@ -46,6 +46,10 @@ void destructEmptyTokens(struct CmdTokens* s_commands);
 char* strDuplicator(const char *start, const char *end);
 
 char* godStrtok(char* string, char* delimeters, char** pos);
+
+char* fixBeforeTok(char* token);
+
+char* fixAfterTok(char* token, char* delim);
 
 void printTokens(struct CmdTokens* s_commands);
 

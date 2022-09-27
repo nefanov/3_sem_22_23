@@ -20,7 +20,7 @@ int main()
         destructEmptyTokens(&s_cmd);
         return MAX_NUM_TOKENS_ERR;
     }
-
+    
     run(&s_cmd);
 
     destructTokens(&s_cmd);

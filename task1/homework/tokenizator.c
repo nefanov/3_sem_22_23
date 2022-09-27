@@ -32,14 +32,37 @@ size_t tokenizator(struct CmdTokens* s_commands)
 
     for (token = godStrtok(cmd, delim, &pos); ((token!=NULL)&(cmdCounter<MAX_NUM_TOKENS)); token = godStrtok(NULL, delim, &pos))
     {
-        s_commands->tokens[cmdCounter] = token;
-        
         if (strcmp("|", token) == 0)
         {
             s_commands->pipelineCapacity++;
+            s_commands->tokens[cmdCounter] = token;
+            cmdCounter++;
         }
+        else if (strchr(token, '|') != NULL)
+        {
+            char* tokenBefore = fixBeforeTok(token);
+            char* tokenAfter  = fixAfterTok(token, delim);
+            free(token);
+            s_commands->tokens[cmdCounter] = tokenBefore;
+            s_commands->pipelineCapacity++;
+            cmdCounter++;
+            char* tmp = (char*)calloc(2, sizeof(char));
+            tmp[0] = '|';
+            tmp[1] = '\0';
+            s_commands->tokens[cmdCounter] = tmp;
+            cmdCounter++;
 
-        cmdCounter++;
+            if (tokenAfter != NULL)
+            {
+                s_commands->tokens[cmdCounter];
+                cmdCounter++;
+            }
+        }
+        else
+        {
+            s_commands->tokens[cmdCounter] = token;
+            cmdCounter++;
+        }
     }
 
     if (cmdCounter == MAX_NUM_TOKENS)
@@ -173,6 +196,37 @@ char* godStrtok(char* string, char* delimeters, char** pos)
     return token;
 }
 
+
+char* fixBeforeTok(char* token)
+{
+    char* pos = strchr(token, '|');
+    
+    char* result = strDuplicator(token, pos);
+
+    return result;
+}
+
+char* fixAfterTok(char* token, char* delim)
+{
+    char* tmp = strchr(token, '|');
+
+    if (strlen(tmp) == 1)
+    {
+        return NULL;
+    }
+    else
+    {
+        char* walker = tmp;
+        while (strchr(walker, *delim) == 0)
+        {
+            walker++;
+        }
+        
+        char* result = strDuplicator(tmp + 1, walker);
+
+        return result;
+    }
+}
 
 void printTokens(struct CmdTokens* s_commands)
 {
