@@ -36,6 +36,7 @@ enum
 typedef struct
 {
     const char* cmd;
+    const char* argv;
     int status;
 } token;
 

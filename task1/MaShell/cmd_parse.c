@@ -1,6 +1,7 @@
 #include "MaShell.h"
 
 void print_status(int status);
+void parse_argv(token* cmd_line);
 
 static size_t count_commands(const char* cmd_buffer)
 {
@@ -28,11 +29,17 @@ void print_commands(token* cmd_array, size_t len)
     {
         printf("[%lu] %s ", cmd_id, cmd_array[cmd_id].cmd);
         print_status(cmd_array[cmd_id].status);
+        print_argv(cmd_array[cmd_id].argv);
         putchar('\n');
     }
 }
 
-#define PRINT_STATUS(TOKEN_STATUS) case(TOKEN_STATUS): printf(#TOKEN_STATUS); break
+void print_argv(char** argv)
+{
+    while(*argv) printf("%s ", *argv++);
+}
+
+#define PRINT_STATUS(TOKEN_STATUS) case(TOKEN_STATUS): printf(#TOKEN_STATUS " "); break
 void print_status(int status)
 {
     switch(status)
@@ -50,7 +57,7 @@ token* parse_cmd(char* cmd_buffer, size_t* cmd_num)
 {
     *cmd_num = count_commands(cmd_buffer);
 
-    token *cmd_array = (token*) calloc(*cmd_num, sizeof (token));
+    token *cmd_array = (token*) calloc(*cmd_num + 1, sizeof (token));
     if (!cmd_array) PRINT_ERROR("Calloc returned NULL");
     
     size_t cmd_id = 0;
@@ -64,7 +71,7 @@ token* parse_cmd(char* cmd_buffer, size_t* cmd_num)
         if (!*command_ptr) 
         {
             printf("[ERROR]: Empty command\n");
-            return ERROR;
+            return (token*) ERROR;
         }
 
         cmd_array[cmd_id].status = BOTH; // Default value for token
@@ -72,12 +79,7 @@ token* parse_cmd(char* cmd_buffer, size_t* cmd_num)
         if (cmd_id == 0) cmd_array[cmd_id].status = RIGHT; // First element
 
         cmd_array[cmd_id++].cmd = command_ptr;
-
-        // while(!isspace(*command_ptr) && *command_ptr != '\0') // Crop ahead spaces
-        // {
-        //     command_ptr++;
-        // }
-        // *command_ptr = '\0';
+        parse_argv(&cmd_array[cmd_id-1]);
 
         command_ptr = strtok(NULL, "|");
 
@@ -91,4 +93,47 @@ token* parse_cmd(char* cmd_buffer, size_t* cmd_num)
     }
 
     return cmd_array;
+}
+
+void parse_argv(token* cmd_line)
+{
+    char* begunok = (char*) cmd_line->cmd;
+    size_t word_counter = 0;
+
+    while(*begunok)
+    {
+        if (isalnum(*begunok) || ispunct(*begunok)) // We stay on command or its argument (some "word")
+        {
+            word_counter++;
+        }
+
+        while (!isspace(*begunok) && *begunok != '\0') begunok++; // Skip "word"
+
+        while (isspace(*begunok)) begunok++; // Skip spaces
+    }
+
+    char** argv = (char**) calloc(word_counter + 1, sizeof(char*));
+    if (!argv) PRINT_ERROR("Calloc returned zero");
+
+    begunok = (char*) cmd_line->cmd;
+    size_t argv_id = 0;
+    while(*begunok)
+    {
+        if (isalnum(*begunok) || ispunct(*begunok)) // We stay on command or its argument (some "word")
+        {
+            argv[argv_id++] = begunok;
+        }
+
+        while (!isspace(*begunok) && *begunok != '\0') begunok++; // Skip "word"
+
+        if (*begunok == '\0') // Last word without ahead spaces in cmd_line
+        {
+            break;
+        }
+        *begunok++ = '\0';
+
+        while (isspace(*begunok)) begunok++; // Skip spaces
+    }
+
+    cmd_line->argv = argv;
 }
