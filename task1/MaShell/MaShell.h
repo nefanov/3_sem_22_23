@@ -37,10 +37,9 @@ enum
 typedef struct
 {
     const char* cmd;
-    const char* argv;
+    const char** argv;
     int status;
 } token;
 
-char* findPathEnvVar(char* envp[]);
 token* parse_cmd(char* cmd_buffer, size_t* cmd_num);
 void print_commands(token* cmd_array, size_t len);

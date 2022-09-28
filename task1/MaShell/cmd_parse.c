@@ -2,6 +2,7 @@
 
 void print_status(int status);
 void parse_argv(token* cmd_line);
+void print_argv(const char** argv);
 
 static size_t count_commands(const char* cmd_buffer)
 {
@@ -34,7 +35,7 @@ void print_commands(token* cmd_array, size_t len)
     }
 }
 
-void print_argv(char** argv)
+void print_argv(const char** argv)
 {
     while(*argv) printf("%s ", *argv++);
 }
@@ -135,5 +136,5 @@ void parse_argv(token* cmd_line)
         while (isspace(*begunok)) begunok++; // Skip spaces
     }
 
-    cmd_line->argv = argv;
+    cmd_line->argv = (const char**) argv;
 }

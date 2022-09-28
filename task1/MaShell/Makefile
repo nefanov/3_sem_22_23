@@ -1,5 +1,5 @@
 
-SRC		= main.c MaShellInternal.c cmd_parse.c
+SRC		= main.c cmd_parse.c
 EXEC 	= MaShell.exe
 LIBS 	= 
 OBJ		= $(SRC:.c=.o)
@@ -18,7 +18,7 @@ $(EXEC): clean $(OBJ)
 	$(CC) $(OBJ) -o $@
 
 %.o: %.c
-	$(CC) -c $(CFLAGS) $< -I $(INC_DIR)
+	$(CC) -c $< -I $(INC_DIR)
 
 valgrind:
 	valgrind --leak-check=yes ./$(EXEC) 
