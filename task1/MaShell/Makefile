@@ -1,5 +1,5 @@
 
-SRC		= main.c MaShellInternal.c
+SRC		= main.c MaShellInternal.c cmd_parse.c
 EXEC 	= MaShell.exe
 LIBS 	= 
 OBJ		= $(SRC:.c=.o)
@@ -9,7 +9,7 @@ SRC_DIR =
 
 СXX = g++
 CC  = gcc
-CFLAGS  = -Wall-Wmissing-declarations -fsanitize=address
+CFLAGS  = -g -Wall -Wmissing-declarations
 LDFLAGS =
 
 all: $(SRC) $(EXEC)
@@ -18,7 +18,7 @@ $(EXEC): clean $(OBJ)
 	$(CC) $(OBJ) -o $@
 
 %.o: %.c
-	$(CC) -c $< -I $(INC_DIR)
+	$(CC) -c $(CFLAGS) $< -I $(INC_DIR)
 
 
 clean:
