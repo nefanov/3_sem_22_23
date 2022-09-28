@@ -20,6 +20,8 @@ $(EXEC): clean $(OBJ)
 %.o: %.c
 	$(CC) -c $(CFLAGS) $< -I $(INC_DIR)
 
+valgrind:
+	valgrind --leak-check=yes ./$(EXEC) 
 
 clean:
 	clear

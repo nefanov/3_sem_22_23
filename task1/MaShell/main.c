@@ -2,6 +2,8 @@
 
 int main(int argc, char* argv[], char* envp[])
 {
+    token* cmd_array = NULL;
+
     while(1)
     {
         // Create buffer for user's cmd
@@ -20,7 +22,6 @@ int main(int argc, char* argv[], char* envp[])
         }
 
         size_t cmd_num = 0;
-        token* cmd_array = NULL;
         cmd_array = parse_cmd(cmd_buffer, &cmd_num);
 
         if (cmd_array == (token*) ERROR)
@@ -73,7 +74,6 @@ int main(int argc, char* argv[], char* envp[])
                         break;
 
                     case NOTH:
-                        printf("Enter NOTH\n");
                         close(pipefd[READ_FD]);
                         close(pipefd[WRITE_FD]);
                         break;
@@ -117,7 +117,6 @@ int main(int argc, char* argv[], char* envp[])
                         break;
 
                      case NOTH:
-                        printf("Enter NOTH\n");
                         close(pipefd[READ_FD]);
                         close(pipefd[WRITE_FD]);
                         break;
@@ -131,5 +130,15 @@ int main(int argc, char* argv[], char* envp[])
                 printf("[INFO] Child %u exited with code %d\n", pid, WEXITSTATUS(wstatus));
             }
         } 
+
+    // Free
+    token* free_cmd_array_begunok = cmd_array;
+    while (free_cmd_array_begunok->cmd) 
+        {
+        free(free_cmd_array_begunok->argv);
+        free_cmd_array_begunok++;
+        }
+
+    free(cmd_array);
     }
 }
