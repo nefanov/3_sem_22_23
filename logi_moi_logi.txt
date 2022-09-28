@@ -1,0 +1,282 @@
+
+S = /bin/ls -l | grep rw | grep 1 | grep 89
+LINE 32:  Ya tut, i = 0
+LINE 32:  Ya tut, i = 2
+LINE 32:  Ya tut, i = 4
+LINE 32:  Ya tut, i = 6
+realparsed[0][0] = /bin/ls -l 
+realparsed[1][0] = (null)
+realparsed[2][0] =  grep rw 
+realparsed[3][0] = (null)
+realparsed[4][0] =  grep 1 
+realparsed[5][0] = (null)
+realparsed[6][0] =  grep 89
+realparsed[7][0] = (null)
+realparsed[8][0] = (null)
+realparsed[9][0] = (null)
+realparsed[10][0] = (null)
+realparsed[11][0] = (null)
+realparsed[12][0] = (null)
+realparsed[13][0] = (null)
+realparsed[14][0] = (null)
+realparsed[15][0] = (null)
+realparsed[16][0] = (null)
+realparsed[17][0] = (null)
+realparsed[18][0] = (null)
+realparsed[19][0] = (null)
+realparsed[20][0] = (null)
+realparsed[21][0] = (null)
+realparsed[22][0] = (null)
+realparsed[23][0] = (null)
+realparsed[24][0] = (null)
+realparsed[25][0] = (null)
+realparsed[26][0] = (null)
+realparsed[27][0] = (null)
+realparsed[28][0] = (null)
+realparsed[29][0] = (null)
+realparsed[30][0] = (null)
+realparsed[31][0] = (null)
+realparsed[32][0] = (null)
+realparsed[33][0] = (null)
+realparsed[34][0] = (null)
+realparsed[35][0] = (null)
+realparsed[36][0] = (null)
+realparsed[37][0] = (null)
+realparsed[38][0] = (null)
+LINE 52:  Ya tut SECOND, i = 0, parsed = /bin/ls
+LINE 54: realparsed[0] = /bin/ls
+LINE 52:  Ya tut SECOND, i = 1, parsed = -l
+LINE 54: realparsed[1] = -l
+i = 0, commands[0][0] = /bin/ls
+i = 0, commands[0][1] = -l
+i = 0, commands[0][2] = (null)
+LINE 52:  Ya tut SECOND, i = 0, parsed = grep
+LINE 54: realparsed[0] = grep
+LINE 52:  Ya tut SECOND, i = 1, parsed = rw
+LINE 54: realparsed[1] = rw
+i = 1, commands[1][0] = grep
+i = 1, commands[1][1] = rw
+i = 1, commands[1][2] = (null)
+LINE 52:  Ya tut SECOND, i = 0, parsed = grep
+LINE 54: realparsed[0] = grep
+LINE 52:  Ya tut SECOND, i = 1, parsed = 1
+LINE 54: realparsed[1] = 1
+i = 2, commands[2][0] = grep
+i = 2, commands[2][1] = 1
+i = 2, commands[2][2] = (null)
+LINE 52:  Ya tut SECOND, i = 0, parsed = grep
+LINE 54: realparsed[0] = grep
+LINE 52:  Ya tut SECOND, i = 1, parsed = 89
+LINE 54: realparsed[1] = 89
+i = 3, commands[3][0] = grep
+i = 3, commands[3][1] = 89
+i = 3, commands[3][2] = (null)
+i = 4, commands[4][0] = (null)
+i = 4, commands[4][1] = 
+i = 4, commands[4][2] = 
+LINE 150:  commands[0][0] = /bin/ls
+(commands[0][0] == NULL) = 0
+LINE 150:  commands[0][1] = -l
+(commands[0][0] == NULL) = 0
+LINE 150:  commands[0][2] = (null)
+(commands[0][0] == NULL) = 0
+LINE 150:  commands[0][3] = 
+(commands[0][0] == NULL) = 0
+LINE 150:  commands[0][4] = 
+(commands[0][0] == NULL) = 0
+LINE 150:  commands[1][0] = grep
+(commands[1][0] == NULL) = 0
+LINE 150:  commands[1][1] = rw
+(commands[1][0] == NULL) = 0
+LINE 150:  commands[1][2] = (null)
+(commands[1][0] == NULL) = 0
+LINE 150:  commands[1][3] = 
+(commands[1][0] == NULL) = 0
+LINE 150:  commands[1][4] = 
+(commands[1][0] == NULL) = 0
+LINE 150:  commands[2][0] = grep
+(commands[2][0] == NULL) = 0
+LINE 150:  commands[2][1] = 1
+(commands[2][0] == NULL) = 0
+LINE 150:  commands[2][2] = (null)
+(commands[2][0] == NULL) = 0
+LINE 150:  commands[2][3] = 
+(commands[2][0] == NULL) = 0
+LINE 150:  commands[2][4] = 
+(commands[2][0] == NULL) = 0
+LINE 150:  commands[3][0] = grep
+(commands[3][0] == NULL) = 0
+LINE 150:  commands[3][1] = 89
+(commands[3][0] == NULL) = 0
+LINE 150:  commands[3][2] = (null)
+(commands[3][0] == NULL) = 0
+LINE 150:  commands[3][3] = 
+(commands[3][0] == NULL) = 0
+LINE 150:  commands[3][4] = 
+(commands[3][0] == NULL) = 0
+LINE 150:  commands[4][0] = (null)
+(commands[4][0] == NULL) = 1
+
+LINE 154;
+LINE 70:  **cmd = /bin/ls
+
+LINE 74: cmd[0] = /bin/ls
+New used pipe descriptors: 4 5
+Input descriptor for current child process: 0
+LINE 103: child finished work.
+
+LINE 74: cmd[1] = grep
+New used pipe descriptors: 5 6
+Input descriptor for current child process: 4
+LINE 103: child finished work.
+
+LINE 74: cmd[2] = grep
+New used pipe descriptors: 4 6
+Input descriptor for current child process: 5
+LINE 103: child finished work.
+
+LINE 74: cmd[3] = grep
+New used pipe descriptors: 5 6
+Input descriptor for current child process: 4
+LINE 82:  Child has started work, i = 3
+LINE 87: (*cmd)([i] ==
+S = /bin/ls -l | grep rw | grep 1 | grep 89
+LINE 32:  Ya tut, i = 0
+LINE 32:  Ya tut, i = 2
+LINE 32:  Ya tut, i = 4
+LINE 32:  Ya tut, i = 6
+realparsed[0][0] = /bin/ls -l 
+realparsed[1][0] = (null)
+realparsed[2][0] =  grep rw 
+realparsed[3][0] = (null)
+realparsed[4][0] =  grep 1 
+realparsed[5][0] = (null)
+realparsed[6][0] =  grep 89
+realparsed[7][0] = (null)
+realparsed[8][0] = (null)
+realparsed[9][0] = (null)
+realparsed[10][0] = (null)
+realparsed[11][0] = (null)
+realparsed[12][0] = (null)
+realparsed[13][0] = (null)
+realparsed[14][0] = (null)
+realparsed[15][0] = (null)
+realparsed[16][0] = (null)
+realparsed[17][0] = (null)
+realparsed[18][0] = (null)
+realparsed[19][0] = (null)
+realparsed[20][0] = (null)
+realparsed[21][0] = (null)
+realparsed[22][0] = (null)
+realparsed[23][0] = (null)
+realparsed[24][0] = (null)
+realparsed[25][0] = (null)
+realparsed[26][0] = (null)
+realparsed[27][0] = (null)
+realparsed[28][0] = (null)
+realparsed[29][0] = (null)
+realparsed[30][0] = (null)
+realparsed[31][0] = (null)
+realparsed[32][0] = (null)
+realparsed[33][0] = (null)
+realparsed[34][0] = (null)
+realparsed[35][0] = (null)
+realparsed[36][0] = (null)
+realparsed[37][0] = (null)
+realparsed[38][0] = (null)
+LINE 52:  Ya tut SECOND, i = 0, parsed = /bin/ls
+LINE 54: realparsed[0] = /bin/ls
+LINE 52:  Ya tut SECOND, i = 1, parsed = -l
+LINE 54: realparsed[1] = -l
+i = 0, commands[0][0] = /bin/ls
+i = 0, commands[0][1] = -l
+i = 0, commands[0][2] = (null)
+LINE 52:  Ya tut SECOND, i = 0, parsed = grep
+LINE 54: realparsed[0] = grep
+LINE 52:  Ya tut SECOND, i = 1, parsed = rw
+LINE 54: realparsed[1] = rw
+i = 1, commands[1][0] = grep
+i = 1, commands[1][1] = rw
+i = 1, commands[1][2] = (null)
+LINE 52:  Ya tut SECOND, i = 0, parsed = grep
+LINE 54: realparsed[0] = grep
+LINE 52:  Ya tut SECOND, i = 1, parsed = 1
+LINE 54: realparsed[1] = 1
+i = 2, commands[2][0] = grep
+i = 2, commands[2][1] = 1
+i = 2, commands[2][2] = (null)
+LINE 52:  Ya tut SECOND, i = 0, parsed = grep
+LINE 54: realparsed[0] = grep
+LINE 52:  Ya tut SECOND, i = 1, parsed = 89
+LINE 54: realparsed[1] = 89
+i = 3, commands[3][0] = grep
+i = 3, commands[3][1] = 89
+i = 3, commands[3][2] = (null)
+i = 4, commands[4][0] = (null)
+i = 4, commands[4][1] = 
+i = 4, commands[4][2] = 
+LINE 150:  commands[0][0] = /bin/ls
+(commands[0][0] == NULL) = 0
+LINE 150:  commands[0][1] = -l
+(commands[0][0] == NULL) = 0
+LINE 150:  commands[0][2] = (null)
+(commands[0][0] == NULL) = 0
+LINE 150:  commands[0][3] = 
+(commands[0][0] == NULL) = 0
+LINE 150:  commands[0][4] = 
+(commands[0][0] == NULL) = 0
+LINE 150:  commands[1][0] = grep
+(commands[1][0] == NULL) = 0
+LINE 150:  commands[1][1] = rw
+(commands[1][0] == NULL) = 0
+LINE 150:  commands[1][2] = (null)
+(commands[1][0] == NULL) = 0
+LINE 150:  commands[1][3] = 
+(commands[1][0] == NULL) = 0
+LINE 150:  commands[1][4] = 
+(commands[1][0] == NULL) = 0
+LINE 150:  commands[2][0] = grep
+(commands[2][0] == NULL) = 0
+LINE 150:  commands[2][1] = 1
+(commands[2][0] == NULL) = 0
+LINE 150:  commands[2][2] = (null)
+(commands[2][0] == NULL) = 0
+LINE 150:  commands[2][3] = 
+(commands[2][0] == NULL) = 0
+LINE 150:  commands[2][4] = 
+(commands[2][0] == NULL) = 0
+LINE 150:  commands[3][0] = grep
+(commands[3][0] == NULL) = 0
+LINE 150:  commands[3][1] = 89
+(commands[3][0] == NULL) = 0
+LINE 150:  commands[3][2] = (null)
+(commands[3][0] == NULL) = 0
+LINE 150:  commands[3][3] = 
+(commands[3][0] == NULL) = 0
+LINE 150:  commands[3][4] = 
+(commands[3][0] == NULL) = 0
+LINE 150:  commands[4][0] = (null)
+(commands[4][0] == NULL) = 1
+
+LINE 154;
+LINE 70:  **cmd = /bin/ls
+
+LINE 74: cmd[0] = /bin/ls
+New used pipe descriptors: 4 5
+Input descriptor for current child process: 0
+LINE 103: child finished work.
+
+LINE 74: cmd[1] = grep
+New used pipe descriptors: 5 6
+Input descriptor for current child process: 4
+LINE 103: child finished work.
+
+LINE 74: cmd[2] = grep
+New used pipe descriptors: 4 6
+Input descriptor for current child process: 5
+LINE 103: child finished work.
+
+LINE 74: cmd[3] = grep
+New used pipe descriptors: 5 6
+Input descriptor for current child process: 4
+LINE 103: child finished work.
