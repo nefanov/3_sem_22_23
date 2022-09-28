@@ -43,3 +43,4 @@ typedef struct
 
 token* parse_cmd(char* cmd_buffer, size_t* cmd_num);
 void print_commands(token* cmd_array, size_t len);
+void print_argv(const char** argv);

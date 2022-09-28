@@ -18,10 +18,13 @@ $(EXEC): clean $(OBJ)
 	$(CC) $(OBJ) -o $@
 
 %.o: %.c
-	$(CC) -c $< -I $(INC_DIR)
+	$(CC) -c -g $< -I $(INC_DIR)
 
 valgrind:
 	valgrind --leak-check=yes ./$(EXEC) 
+
+test:
+	./$(EXEC) < test.txt
 
 clean:
 	clear

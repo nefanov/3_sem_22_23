@@ -2,7 +2,6 @@
 
 void print_status(int status);
 void parse_argv(token* cmd_line);
-void print_argv(const char** argv);
 
 static size_t count_commands(const char* cmd_buffer)
 {

@@ -9,11 +9,29 @@ int main(int argc, char* argv[], char* envp[])
         // Create buffer for user's cmd
         char cmd_buffer[ARG_MAX] = {};
         printf("$$");
-        fgets(cmd_buffer, ARG_MAX, stdin);
+        
+        if (!fgets(cmd_buffer, ARG_MAX, stdin)) 
+            {
+            if (feof(stdin)) 
+            {
+                printf("[INFO] Eof detected\n");
+                return 0;
+            }
+
+            PRINT_ERROR("fgets cant read anymore");
+            return 1;
+            }
+        putchar('\n');
 
         // Delete '\n'
         char* end_of_buffer = strchr(cmd_buffer, '\n');
-        *end_of_buffer = '\0';
+
+        if (end_of_buffer)
+        {
+            *end_of_buffer = '\0';
+            // printf("Incoreect inpur");
+            // exit(1);
+        }
 
         if (cmd_buffer[0] == 'q' && cmd_buffer[1] == '\0')
         {
@@ -47,6 +65,11 @@ int main(int argc, char* argv[], char* envp[])
             }
             if (pid == CHILD)
             {
+                printf("executing: %s ", cmd_begunok->cmd);
+                print_argv(cmd_begunok->argv + 1);
+                putchar('\n');
+                putchar('\n');
+                
                 switch (cmd_begunok->status)
                 {   
                     case LEFT:
@@ -127,7 +150,7 @@ int main(int argc, char* argv[], char* envp[])
 
                 cmd_begunok++;
 
-                printf("[INFO] Child %u exited with code %d\n", pid, WEXITSTATUS(wstatus));
+                printf("\n[INFO] Child %u exited with code %d\n\n", pid, WEXITSTATUS(wstatus));
             }
         } 
 

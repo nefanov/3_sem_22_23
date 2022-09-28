@@ -1,0 +1,3 @@
+ls -l | grep main
+ls -l | grep main | grep 6
+ls 
