@@ -26,3 +26,9 @@ To start with valgrind:
    $ make
    $ make valgrind
 ```
+
+To launch test case:
+```
+   $ make
+   $ make test
+```
