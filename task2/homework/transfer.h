@@ -24,8 +24,7 @@ typedef struct op_table
 typedef struct pPipe 
 {
     char* dataIn;
-    char* dataOut;
-
+    
     int fdChild[2];
     int fdParent[2]; 
 
