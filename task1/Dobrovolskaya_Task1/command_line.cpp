@@ -10,7 +10,15 @@ command_line* create_command_line(char *string)
     int count = count_programms(string);
     line->count_programms = count;
 
-    progs = parse(string);
+    if (count != 1)
+    {
+        progs = parse(string);
+    }
+    else
+    {
+        progs = (char **)malloc(sizeof(char *));
+        progs[0] = string;
+    }
     line->progs = (programma **)malloc(count * sizeof(programma*));
 
     for (int i = 0; i < count; i++)
@@ -31,7 +39,6 @@ void call_progs(command_line *line)
 
     for (int i = 0; i < line->count_programms; i++)
     {
-
         if (pipe(fd) < 0)
         {
             perror("pipe");

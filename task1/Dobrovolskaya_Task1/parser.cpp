@@ -20,6 +20,7 @@ char **parse(char *string)
         }
         i++;
     }
+
     i = 0;
 
     if (one_or_more == 2)
