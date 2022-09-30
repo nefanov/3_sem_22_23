@@ -90,7 +90,7 @@ size_t parent_send(Pipe *pip)
 
     if (fd == 0)
     {
-    	//close((pip->fd_direct)[0]);
+    	close((pip->fd_direct)[0]);
         if ((fd = open("file.txt", O_RDONLY)) < 0)
         {
             perror("open");
@@ -136,7 +136,7 @@ size_t child_receive(Pipe *pip)
 
 	if (first == 1)
 	{
-		//close((pip->fd_back)[1]);
+		close((pip->fd_back)[1]);
 		first = 0;
 	}
    
@@ -159,7 +159,7 @@ size_t child_send(Pipe *pip)
 
 	if (first == 1)
 	{
-		//close((pip->fd_back)[0]);
+		close((pip->fd_back)[0]);
 		first = 0;
 	}
 
@@ -183,8 +183,8 @@ size_t parent_receive(Pipe *pip)
 
 	if (fd == 0)
     {
-    	//close((pip->fd_back)[1]);
-        if ((fd = open("text2.txt", O_WRONLY | O_CREAT, 0666)) < 0)
+    	close((pip->fd_back)[1]);
+        if ((fd = open("text.txt", O_WRONLY | O_CREAT, 0666)) < 0)
         {
             perror("open");
             _exit(-1);
