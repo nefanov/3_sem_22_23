@@ -12,7 +12,7 @@ int main()
 
     while (1)
     {
-        letter = send(pip, result);//родитель отправляет ребенку файл text.txt
+        letter = send(pip, result);
         if (letter == 0)
         {
             if (result == 0)
@@ -21,7 +21,7 @@ int main()
             }
             break;
         }
-        receive(pip, result);//ребенок возращает его родителю, родитель печатает его в text2.txt
+        receive(pip, result);
     }
 
     destructPipe(pip);
