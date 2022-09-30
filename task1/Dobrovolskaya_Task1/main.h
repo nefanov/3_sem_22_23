@@ -20,8 +20,10 @@ typedef struct command_line{
 
 
 command_line *create_command_line(char *string);
+int is_it_again(char *string);
 int count_programms(char *line);
 int count_words(char *string);
 char **parse(char *string);
-void call_progs(command_line *line);
+int call_progs(command_line *line);
+void destruct_command_line(command_line *line);
 

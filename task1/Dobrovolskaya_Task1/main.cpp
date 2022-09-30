@@ -5,7 +5,9 @@ int main()
 {
     command_line *line;
     char *string;
-    size_t BF_SIZE = 0;
+    size_t BF_SIZE;
+
+    BF_SIZE = 0;
     
  	while(1)
     {
@@ -13,17 +15,23 @@ int main()
         
  		if (!getline(&string, &BF_SIZE, stdin))
         {
-            perror("fgets");
+            perror("getline");
         };
 
-        if (string[0] == 'q')
+        if (is_it_again(string))
         {
-            return 0;
+            continue;
         }
 
         line = create_command_line(string);
 
-        call_progs(line);
+        if (call_progs(line))
+        {
+            destruct_command_line(line);
+            return 0;
+        }
+
+        destruct_command_line(line);
 
     }
 

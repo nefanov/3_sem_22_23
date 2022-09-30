@@ -5,23 +5,23 @@ char **parse(char *string)
 {
     assert(string);
 
-    int count, i, one_or_more; 
+    int count, elem, one_or_more; 
     char sep[10] = {};
     char **arr;
     one_or_more = 1;
-    i = 0;
+    elem = 0;
 
-    while (string[i] != '\0')
+    while (string[elem] != '\0')
     {
-        if (string[i] == '|')
+        if (string[elem] == '|')
         {
             one_or_more = 2;
             break;
         }
-        i++;
+        elem++;
     }
 
-    i = 0;
+    elem = 0;
 
     if (one_or_more == 2)
     {
@@ -44,12 +44,12 @@ char **parse(char *string)
     arr = (char **)malloc((count + 1) * sizeof(char *));
     assert(arr);
 
-    arr[i] = strtok (string,sep);
+    arr[elem] = strtok (string,sep);
 
-    while (arr[i] != NULL)
+    while (arr[elem] != NULL)
     { 
-        i++;
-        arr[i] = strtok (NULL,sep);
+        elem++;
+        arr[elem] = strtok (NULL,sep);
     }
     
     return arr;
@@ -59,13 +59,15 @@ char **parse(char *string)
 
 int count_words(char *string)
 {
+    assert(string);
+
     int count, len;
     count = 0;
     len = strlen(string);
     
-    for (int i = 1; i < (len - 1); i++)
+    for (int elem = 1; elem < (len - 1); elem++)
     {
-        if (string[i - 1] != ' ' && string[i] == ' ')
+        if (string[elem - 1] != ' ' && string[elem] == ' ')
         {
             count++;
         }
@@ -81,13 +83,15 @@ int count_words(char *string)
 
 int count_programms(char *line)
 {
+    assert(line);
+
     int count, len;
     len = strlen(line);
     count = 1;
 
-    for (int i = 0; i < len; i++)
+    for (int elem = 0; elem < len; elem++)
     {
-        if (line[i] == '|')
+        if (line[elem] == '|')
         {
             count++;
         }
