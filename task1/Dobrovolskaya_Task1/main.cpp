@@ -16,6 +16,11 @@ int main()
             perror("fgets");
         };
 
+        if (string[0] == 'q')
+        {
+            return 0;
+        }
+
         line = create_command_line(string);
 
         call_progs(line);
