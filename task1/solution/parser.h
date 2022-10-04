@@ -1,6 +1,7 @@
 #pragma once
 
 
+char* copy_cleaned(const char* buf, long unsigned buf_sz);
 
 typedef struct request_t_ request_t;
 

@@ -1,5 +1,6 @@
 #include "parser.h"
 
+#include <assert.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -16,6 +17,25 @@ int is_sep(char elem, char* sep) {
         i++;
     }
     return 0; 
+}
+
+char* copy_cleaned(const char* buf, long unsigned buf_sz) {
+    char* res = calloc(buf_sz + 1, sizeof(char));
+    assert(res != NULL);
+    long unsigned i = 0, j = 0;
+    while(i < buf_sz && buf[i] != '\0') {
+        if (i != 0) {
+            if (is_sep(buf[i], " \t\n") && is_sep(buf[i - 1], " \t\n")) {
+                i++;
+                continue;
+            }
+        }
+        res[j] = buf[i];
+        i++;
+        j++;
+        
+    }
+    return res;
 }
 
 unsigned int count_chr(char* sep, const char* buf) {
