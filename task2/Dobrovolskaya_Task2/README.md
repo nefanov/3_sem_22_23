@@ -9,5 +9,5 @@
   $ ./duplex
 ```  
 
-![Image alt](https://github.com/kseniadobrovolskaya/3_sem_22_23/raw/main/image/image.png)
+![Image alt](https://github.com/kseniadobrovolskaya/3_sem_22_23/task2/Dobrovolskaya_Task2/raw/main/image/image.png)
   
