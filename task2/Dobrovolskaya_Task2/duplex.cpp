@@ -28,15 +28,6 @@ void create_pipe(Pipe *pip)
 }
 
 
-void clear_buffer(char* buffer, size_t buffer_size)
-{
-    for (size_t byte_id = 0; byte_id < buffer_size; byte_id++)
-    {
-        buffer[byte_id] = '\0';
-    }
-}
-
-
 size_t send(Pipe *pip, int result)
 {
     size_t size;
@@ -60,7 +51,7 @@ size_t send(Pipe *pip, int result)
 }
 
 
-size_t receive(Pipe *pip, int result)
+size_t receive(Pipe *pip, int result, int get)
 {
     size_t size;
 
@@ -75,7 +66,7 @@ size_t receive(Pipe *pip, int result)
     }
     else//родитель читает из канала fd_back и выводит в text2.txt
     {
- 		size = parent_receive(pip);
+ 		size = parent_receive(pip, get);
     }
 
     return size;
@@ -85,7 +76,7 @@ size_t receive(Pipe *pip, int result)
 
 size_t parent_send(Pipe *pip)
 {
-	size_t size;
+	size_t size, get;
 	static int fd = 0;
 
     if (fd == 0)
@@ -98,17 +89,18 @@ size_t parent_send(Pipe *pip)
         }
     }
     
-    size = read(fd, pip->data_read, pip->len);
+    get = read(fd, pip->data_read, pip->len);
 
-    if (size != pip->len)
+    if (get != pip->len)
     {
-    	for (size_t i = size; i < pip->len; i++)
+    	for (size_t i = get; i < pip->len; i++)
     	{
     		(pip->data_read)[i] = '\0';
     	}
+
     }
-  
-    if (size < 0)
+   
+    if (get < 0)
     {
         close(fd);
         perror("read");
@@ -124,7 +116,7 @@ size_t parent_send(Pipe *pip)
         _exit(-1);
     }
     
-    return size;
+    return get;
 
 }
 
@@ -136,12 +128,12 @@ size_t child_receive(Pipe *pip)
 
 	if (first == 1)
 	{
-		close((pip->fd_back)[1]);
+		//close((pip->fd_back)[1]);
 		first = 0;
 	}
-   
-    size = read((pip->fd_direct)[0], pip->data_read, pip->len);
     
+    size = read((pip->fd_direct)[0], pip->data_read, pip->len);
+
     if (size < 0)
     {
         perror("read");
@@ -164,7 +156,7 @@ size_t child_send(Pipe *pip)
 	}
 
     size = write((pip->fd_back)[1], pip->data_read, pip->len);
-
+   
     if (size < 0)
     {
         perror("write");
@@ -176,7 +168,7 @@ size_t child_send(Pipe *pip)
 }
 
 
-size_t parent_receive(Pipe *pip)
+size_t parent_receive(Pipe *pip, int get)
 {
 	size_t size;
 	static int fd = 0;
@@ -190,17 +182,18 @@ size_t parent_receive(Pipe *pip)
             _exit(-1);
         }
     }
-
-    size = read((pip->fd_back)[0], pip->data_write, pip->len);
-
+   
+    size = read((pip->fd_back)[0], pip->data_write, get);
+    
     if (size < 0)
     {
         close(fd);
         perror("read");
         _exit(-1);
     }
-
-    size = write(fd, pip->data_write, pip->len);
+   
+    size = write(fd, pip->data_write, get);
+ 
     
     if (size < 0)
     {
@@ -218,3 +211,5 @@ void destructPipe(Pipe *pip)
 {
 	free(pip);
 }
+
+

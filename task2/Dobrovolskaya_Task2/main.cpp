@@ -13,6 +13,7 @@ int main()
     while (1)
     {
         letter = send(pip, result);
+
         if (letter == 0)
         {
             if (result == 0)
@@ -21,7 +22,9 @@ int main()
             }
             break;
         }
-        receive(pip, result);
+
+        receive(pip, result, letter);
+        
     }
 
     destructPipe(pip);
@@ -30,7 +33,7 @@ int main()
     {
         _exit(0);
     }
-
+    
     return 0;
     
 }
