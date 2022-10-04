@@ -5,9 +5,7 @@
 #include "CommonFunctions/CommonFunctions.hpp"
 #include "IO/IO.hpp"
 
-#define SIZE_BUF 32768
-
-// const size_t SIZE_BUF = 1048576;
+const size_t SIZE_BUF = 32768;
 
 int main() {
     DuplexPipe commCh = {};
@@ -22,7 +20,7 @@ int main() {
 
     size_t fSize = GetFSize(srcFP);
 
-    size_t cBlocks = fSize / SIZE_BUF + 1;
+    size_t cBlocks = fSize / SIZE_BUF;
 
     FILE *dstFP = fopen("/mnt/c/Users/olegb/Desktop/data and result/result.txt", "w");
     ASSERTED(fopen, dstFP, NULL, FOPEN_FAILED);
