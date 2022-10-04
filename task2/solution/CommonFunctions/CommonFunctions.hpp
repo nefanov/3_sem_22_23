@@ -17,4 +17,6 @@
         return retValue; \
     }
 
+size_t GetFSize(FILE *fP);
+
 #endif 

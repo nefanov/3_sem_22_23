@@ -14,7 +14,8 @@ enum ERROR_LIST {
     FORK_FAILED,
     READ_FAILED,
     WRITE_FAILED,
-    DuplexPipeParentChannelDtor_FAILED
+    DuplexPipeParentChannelDtor_FAILED,
+    FOPEN_FAILED
 };
 
 enum DIRECTION {
