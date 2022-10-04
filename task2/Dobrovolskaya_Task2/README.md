@@ -8,4 +8,5 @@
   $ make  
   $ ./duplex
 ```  
+![example](image.png)
   
