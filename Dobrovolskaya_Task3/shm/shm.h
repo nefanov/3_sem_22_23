@@ -19,7 +19,6 @@ size_t read(char *shmem, int *shnum);
 char *get_shmem(int shmid);
 int *get_shnum(int shmid);
 int get_shmid(const char *name, int num);
-void del_shmem(char *shmem);
 void del_shm(char *shmem, int *shnum);
 void del_sem(int semid);
 void get_sembuf_for_send(struct sembuf *wait, struct sembuf *after_send);

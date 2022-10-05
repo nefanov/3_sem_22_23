@@ -109,18 +109,6 @@ int *get_shnum(int shmid)
 }
 
 
-void del_shmem(char *shmem)
-{
-	assert(shmem);
-
-	if (shmdt(shmem) < 0)
-	{
-		perror("shmdt");
-		exit(-1);
-	}
-}
-
-
 size_t send(char *shmem, int *shnum)
 {
 	assert(shmem);
