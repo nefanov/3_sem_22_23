@@ -19,7 +19,7 @@ int main (int argc, char* argv[])
     if (this_pid == 0)
     {
         tune_pipes_for_child (pipe_hndl);
-        int size = recieve_file_size (pipe_hndl);
+        size_t size = recieve_file_size (pipe_hndl);
 
         size_t total_read = 0;
         size_t curr_read = 0;
@@ -33,9 +33,16 @@ int main (int argc, char* argv[])
     else
     {
         tune_pipes_for_parent (pipe_hndl);
+        
         FILE *input = fopen (argv[1], "r");
+        if (input == NULL)
+            perror ("input open error");
+        
         FILE *output = fopen (argv[2], "w");
-        int size = send_file_size (input, pipe_hndl);
+        if (input == NULL)
+            perror ("output open error");
+
+        size_t size = send_file_size (input, pipe_hndl);
 
         size_t total_read = 0;
         size_t curr_read = 0; 

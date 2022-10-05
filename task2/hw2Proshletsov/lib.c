@@ -32,7 +32,7 @@ Pipe *pipe_construct (size_t size)
 //////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /* Recieve and send functions for Pipe operation functions. */
-size_t recieve_op (Pipe *self, int max_size)
+size_t recieve_op (Pipe *self, size_t max_size)
 {
     static size_t recieved_from_the_beginning = 0;
     ssize_t curr_read = 0;
@@ -71,7 +71,6 @@ size_t    send_op (Pipe *self, size_t amount_to_send, pid_t pid)
     ssize_t curr_written = 0;
     size_t total_written = 0;
 
-    int i = 0;
     while (total_written < amount_to_send)
     {
         curr_written = write (self->sender[1], self->buffer, amount_to_send);
@@ -83,7 +82,6 @@ size_t    send_op (Pipe *self, size_t amount_to_send, pid_t pid)
         }
 
         total_written += curr_written;
-        i++;
     }
 
     return total_written;        
@@ -113,15 +111,20 @@ void tune_pipes_for_parent (Pipe *self)
 
 /* Send file size from parent to child.*/
 
-int send_file_size (FILE* file, Pipe *pipe)
+size_t send_file_size (FILE* file, Pipe *pipe)
 {
-    fseek (file, 0, SEEK_END);
-    int size = ftell (file);
+    int check = fseek (file, 0, SEEK_END);
+    if (check < 0)
+        perror ("fseek error");
+
+    size_t size = ftell (file);
+
     fseek (file, 0, SEEK_SET);
 
-    int size_save = size;
+
+    size_t size_save = size;
     int num_len = 0;
-    for (int i = 1; size/(i*10) != 0; i*=10, num_len++);
+    for (size_t i = 1; size/(i*10) != 0; i*=10, num_len++);
 
     for (; num_len >= 0; num_len--)
     {
@@ -133,17 +136,17 @@ int send_file_size (FILE* file, Pipe *pipe)
     return size_save;
 }
 
-int recieve_file_size (Pipe *pipe)
+size_t recieve_file_size (Pipe *pipe)
 {
     read (pipe->reciever[0], pipe->buffer, BUF_SIZE);
 
     char* pointer = pipe->buffer;
 
-    int size = 0;
+    size_t size = 0;
     for (; *pointer != '\0'; pointer++);    
 
     pointer--;
-    for (int i = 1; pointer != (pipe->buffer - 1); pointer--, i *=10)
+    for (size_t i = 1; pointer != (pipe->buffer - 1); pointer--, i *=10)
     {
         size += (*pointer - '0') * i;    
     }
