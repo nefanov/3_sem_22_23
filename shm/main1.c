@@ -1,7 +1,7 @@
 #include "shm.h"
 
 
-//0 - mutax 1 - empty 2 -full
+
 
 int main()
 {
@@ -11,61 +11,27 @@ int main()
 
 	int shnumid = get_shmid("main1.c", 1);
 
-	char *shmem = get_shmem(shmid);
+	char *shmem = get_shmem(shmid);//разделяемая память для записи 
 
-	int *shnum = get_shnum(shnumid);
+	int *shnum = get_shnum(shnumid);//разделяемая память для количества записанных байт
 
-	struct sembuf *mybuf, *mybuf1, *mybuf0;
-	//get_sembuf_ops(mybuf0, mybuf, mybuf1);
-	mybuf = (struct sembuf*)malloc(2 * sizeof(struct sembuf));
-	mybuf1 = (struct sembuf*)malloc(2 * sizeof(struct sembuf));
-	mybuf0 = (struct sembuf*)malloc(2 * sizeof(struct sembuf));
-
-	mybuf0[0].sem_op = 1;
-	mybuf0[0].sem_flg = 0;
-	mybuf0[0].sem_num = 0;
-
-	mybuf0[1].sem_op = 1;
-	mybuf0[1].sem_flg = 0;
-	mybuf0[1].sem_num = 1;
-
-	mybuf[0].sem_op = -1;
-	mybuf[0].sem_flg = 0;
-	mybuf[0].sem_num = 1;
-
-	mybuf[1].sem_op = -1;
-	mybuf[1].sem_flg = 0;
-	mybuf[1].sem_num = 0;
-
-	mybuf1[0].sem_op = 1;
-	mybuf1[0].sem_flg = 0;
-	mybuf1[0].sem_num = 0;
-
-	mybuf1[1].sem_op = 1;
-	mybuf1[1].sem_flg = 0;
-	mybuf1[1].sem_num = 2;
-
+	struct sembuf *wait, *after_send;
+	
+	wait = (struct sembuf*)malloc(2 * sizeof(struct sembuf));
+	after_send = (struct sembuf*)malloc(2 * sizeof(struct sembuf));
+	
+	get_sembuf_for_send(wait, after_send);
 
 	int semid = get_semid("main1.c", 2);
-	init_sems(semid, mybuf0);
+	init_sems(semid);
 
 	while (letter != 0)
 	{
-		if (semop(semid, mybuf, 2) < 0)
-		{
-			perror("semop");
-			exit(-1);
-		}
+		do_it(semid, wait);
 
-		//printf("sending...\n");
 		letter = send(shmem, shnum);
-		//printf("waiting...\n");
 
-		if (semop(semid, mybuf1, 2) < 0)
-		{
-			perror("semop");
-			exit(-1);
-		}
+		do_it(semid, after_send);
 	}
 
 	return 0;

@@ -55,10 +55,10 @@ int get_shmid(const char *name, int num)
 
 	}
 
-
 	return shmid;
 
 }
+
 
 int get_semid(const char *name, int num)
 {
@@ -111,6 +111,8 @@ int *get_shnum(int shmid)
 
 void del_shmem(char *shmem)
 {
+	assert(shmem);
+
 	if (shmdt(shmem) < 0)
 	{
 		perror("shmdt");
@@ -121,6 +123,8 @@ void del_shmem(char *shmem)
 
 size_t send(char *shmem, int *shnum)
 {
+	assert(shmem);
+
 	size_t size;
 	static int fd = 0;
 
@@ -151,6 +155,8 @@ size_t send(char *shmem, int *shnum)
 
 size_t read(char *shmem, int *shnum)
 {
+	assert(shmem);
+
 	size_t size;
 	int count;
 	static int fd = 0;
@@ -179,13 +185,27 @@ size_t read(char *shmem, int *shnum)
 
 }
 
-void init_sems(int semid, struct sembuf *mybuf0)
+
+void init_sems(int semid)
 {
-	if (semop(semid, mybuf0, 2) < 0)
+	struct sembuf *sems;
+	sems = (struct sembuf*)malloc(2 * sizeof(struct sembuf));
+
+	sems[0].sem_op = 1;
+	sems[0].sem_flg = 0;
+	sems[0].sem_num = 0;
+
+	sems[1].sem_op = 1;
+	sems[1].sem_flg = 0;
+	sems[1].sem_num = 1;
+
+	if (semop(semid, sems, 2) < 0)
 	{
 		perror("semop");
 		exit(-1);
 	}
+
+	free(sems);
 }
 
 
@@ -201,6 +221,9 @@ void del_sem(int semid)
 
 void del_shm(char *shmem, int *shnum)
 {
+	assert(shmem);
+	assert(shnum);
+
 	if (shmdt(shmem) < 0)
 	{
 		perror("shmdt");
@@ -214,3 +237,61 @@ void del_shm(char *shmem, int *shnum)
 	}
 }
 
+
+void get_sembuf_for_send(struct sembuf *wait, struct sembuf *after_send)
+{
+	assert(wait);
+	assert(after_send);
+
+	wait[0].sem_op = -1;
+	wait[0].sem_flg = 0;
+	wait[0].sem_num = 1;
+
+	wait[1].sem_op = -1;
+	wait[1].sem_flg = 0;
+	wait[1].sem_num = 0;
+
+	after_send[0].sem_op = 1;
+	after_send[0].sem_flg = 0;
+	after_send[0].sem_num = 0;
+
+	after_send[1].sem_op = 1;
+	after_send[1].sem_flg = 0;
+	after_send[1].sem_num = 2;
+}
+
+
+void get_sembuf_for_read(struct sembuf *wait, struct sembuf *after_read)
+{
+	assert(wait);
+	assert(after_read);
+	
+	wait[0].sem_op = -1;
+	wait[0].sem_flg = 0;
+	wait[0].sem_num = 2;
+
+	wait[1].sem_op = -1;
+	wait[1].sem_flg = 0;
+	wait[1].sem_num = 0;
+
+	after_read[0].sem_op = 1;
+	after_read[0].sem_flg = 0;
+	after_read[0].sem_num = 0;
+
+	after_read[1].sem_op = 1;
+	after_read[1].sem_flg = 0;
+	after_read[1].sem_num = 1;
+}
+
+
+void do_it(int semid, struct sembuf *sembuf)
+{
+	assert(sembuf);
+	
+	if (semop(semid, sembuf, 2) < 0)
+	{
+		perror("semop");
+		exit(-1);
+	}
+}
+	

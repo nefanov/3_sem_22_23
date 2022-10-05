@@ -4,6 +4,7 @@
 #include <sys/sem.h>
 #include <stdio.h>
 #include <string.h>
+#include <assert.h>
 #include <errno.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -21,9 +22,11 @@ int get_shmid(const char *name, int num);
 void del_shmem(char *shmem);
 void del_shm(char *shmem, int *shnum);
 void del_sem(int semid);
-//void get_sembuf_ops(struct sembuf *mybuf0, struct sembuf *mybuf, struct sembuf *mybuf1);
-void init_sems(int semid, struct sembuf *mybuf0);
+void get_sembuf_for_send(struct sembuf *wait, struct sembuf *after_send);
+void get_sembuf_for_read(struct sembuf *wait, struct sembuf *after_read);
+void init_sems(int semid);//0 - mutax 1 - empty 2 -full
 int get_semid(const char *name, int num);
+void do_it(int semid, struct sembuf *sembuf);
 
 
 
