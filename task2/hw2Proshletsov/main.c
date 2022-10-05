@@ -20,9 +20,6 @@ int main (int argc, char* argv[])
     {
         tune_pipes_for_child (pipe_hndl);
         int size = recieve_file_size (pipe_hndl);
-        printf ("sizeinchild = %d\n", size);
-
-        FILE *output = fopen (argv[2], "w");
 
         size_t total_read = 0;
         size_t curr_read = 0;
@@ -30,24 +27,33 @@ int main (int argc, char* argv[])
         {
             curr_read = pipe_hndl->operations.recieve (pipe_hndl, size);
             total_read += curr_read;
-            fwrite (pipe_hndl->buffer, sizeof (char), curr_read, output);
+            pipe_hndl->operations.send (pipe_hndl, curr_read, this_pid);
         }
-        fclose (output);
     }
     else
     {
         tune_pipes_for_parent (pipe_hndl);
         FILE *input = fopen (argv[1], "r");
-        send_file_size (input, pipe_hndl);
+        FILE *output = fopen (argv[2], "w");
+        int size = send_file_size (input, pipe_hndl);
 
-        while (!feof(input))
+        size_t total_read = 0;
+        size_t curr_read = 0; 
+        while (total_read < size)
         {
-            fread (pipe_hndl->buffer, sizeof (char), BUF_SIZE, input);
-            pipe_hndl->operations.send (pipe_hndl);
+            if (!feof(input))
+            {
+                size_t read = fread (pipe_hndl->buffer, sizeof (char), BUF_SIZE, input);
+                pipe_hndl->operations.send (pipe_hndl, read, this_pid);
+            }
+            curr_read = pipe_hndl->operations.recieve (pipe_hndl, size);
+            total_read += curr_read;
+            fwrite (pipe_hndl->buffer, sizeof (char), curr_read, output);
         }
         
 
-       fclose (input);
+        fclose (input);
+        fclose (output);
     }
 
     return 0;

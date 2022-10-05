@@ -46,13 +46,14 @@ size_t recieve_op (Pipe *self, int max_size)
         }
         else
         {
-            printf ("%d, %zu\n", max_size, recieved_from_the_beginning);
             curr_read = read (self->reciever[0], self->buffer + total_read, max_size - recieved_from_the_beginning);
             total_read += curr_read;
+            recieved_from_the_beginning += curr_read;
+
             break;
         }
       
-        if (curr_read <= 0)
+        if (curr_read < 0)
         {
             perror("Read from reciever error: ");
             return 0;
@@ -62,33 +63,27 @@ size_t recieve_op (Pipe *self, int max_size)
         recieved_from_the_beginning += curr_read;
     }
 
-    printf ("total_read = %ld, %ld\n", recieved_from_the_beginning, recieved_from_the_beginning%4096);
-
     return total_read;
 }
 
-size_t    send_op (Pipe *self)
+size_t    send_op (Pipe *self, size_t amount_to_send, pid_t pid)
 {
     ssize_t curr_written = 0;
     size_t total_written = 0;
 
     int i = 0;
-    while (total_written < BUF_SIZE)
+    while (total_written < amount_to_send)
     {
-        printf ("write shite, %d\n", self->sender[1]);
-        printf ("%ld\n", strlen (self->buffer));
-        curr_written = write (self->sender[1], self->buffer, BUF_SIZE);
+        curr_written = write (self->sender[1], self->buffer, amount_to_send);
         if (curr_written < 0)
         {
             printf ("error\n");
-            perror ("Write to sender error: ");
+            perror ("Write to sender error");
             return 0;
         }
 
         total_written += curr_written;
         i++;
-        //printf ("total_written = %zu, i = %d\n", total_written, i);
-        printf ("finish %d\n", self->sender[1]);
     }
 
     return total_written;        
@@ -124,7 +119,7 @@ int send_file_size (FILE* file, Pipe *pipe)
     int size = ftell (file);
     fseek (file, 0, SEEK_SET);
 
-
+    int size_save = size;
     int num_len = 0;
     for (int i = 1; size/(i*10) != 0; i*=10, num_len++);
 
@@ -135,8 +130,7 @@ int send_file_size (FILE* file, Pipe *pipe)
     }
 
     ssize_t num = write (pipe->sender[1], pipe->buffer, BUF_SIZE);
-    printf ("size = %d\n", size);
-    return size;
+    return size_save;
 }
 
 int recieve_file_size (Pipe *pipe)
@@ -154,7 +148,5 @@ int recieve_file_size (Pipe *pipe)
         size += (*pointer - '0') * i;    
     }
 
-    printf ("size = %d\n", size);
-    printf ("sizestr = %s\n", pipe->buffer);
     return size;
 }
