@@ -95,11 +95,12 @@ int main() {
     } 
 
     const pid_t pid = fork();
-    FILE *data = fopen("file.txt", "r");
-    FILE* output = fopen("result.txt", "w");
+    FILE *data = fopen("hamlet.txt", "r");
+    //FILE* output = fopen("result.txt", "w");
     //FILE* log = fopen("log.txt", "w");
     struct stat size_buff = { };
     fstat ( fileno (data), &size_buff);
+    fclose(data);
     size_t file_size = (size_t) (size_buff.st_size);
 
 
@@ -113,6 +114,8 @@ int main() {
         close(duplex->fd_direct[1]);
         close(duplex->fd_back[0]);
         size_t size = 0;
+        FILE* output = fopen("result.txt", "w");
+        data = fopen("hamlet.txt", "r");
         while(!feof(data)) {
         
             size = fread(duplex->data_direct, sizeof(char), MAX_BUFF, data );
@@ -124,7 +127,8 @@ int main() {
             fwrite(duplex->data_direct, sizeof(char), duplex->length_direct, output);
 
         }
-
+        fclose(data);
+        fclose(output);
         int status = 0;
         waitpid(pid, &status, 0);
     }
@@ -154,8 +158,6 @@ int main() {
         }
         exit(0);
     }
-    fclose(output);
-    fclose(data);
     return 0;
 
 }
