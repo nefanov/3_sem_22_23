@@ -95,13 +95,13 @@ int main() {
     } 
 
     const pid_t pid = fork();
-    FILE *data = fopen("hamlet.txt", "r");
+    //FILE *data = fopen("file.txt", "r");
     //FILE* output = fopen("result.txt", "w");
     //FILE* log = fopen("log.txt", "w");
-    struct stat size_buff = { };
-    fstat ( fileno (data), &size_buff);
-    fclose(data);
-    size_t file_size = (size_t) (size_buff.st_size);
+    //struct stat size_buff = { };
+    //fstat ( fileno (data), &size_buff);
+    //fclose(data);
+    //size_t file_size = (size_t) (size_buff.st_size);
 
 
     if ( pid < 0 ) {
@@ -115,7 +115,13 @@ int main() {
         close(duplex->fd_back[0]);
         size_t size = 0;
         FILE* output = fopen("result.txt", "w");
-        data = fopen("hamlet.txt", "r");
+        FILE* data = fopen("file.txt", "r");
+        struct stat size_buff = { };
+        fstat ( fileno (data), &size_buff);
+        size_t file_size = (size_t) (size_buff.st_size);
+        duplex->length_direct = sizeof(size_t);
+        memcpy(duplex->data_direct, &file_size, duplex->length_direct);
+        duplex->actions.snd(duplex);
         while(!feof(data)) {
         
             size = fread(duplex->data_direct, sizeof(char), MAX_BUFF, data );
@@ -147,7 +153,10 @@ int main() {
         duplex->data_back = temp;
         close(duplex->fd_direct[1]);
         close(duplex->fd_back[0]);
-        size_t size = 0;
+        size_t size = 0, file_size = 0;
+        duplex->length_direct = sizeof(size_t);
+        duplex->actions.rcv(duplex);
+        memcpy(&file_size, duplex->data_direct, duplex->length_direct);
         while((file_size) > 0) {
             
             duplex->length_direct = MAX_BUFF;
