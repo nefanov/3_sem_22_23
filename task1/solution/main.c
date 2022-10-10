@@ -10,7 +10,7 @@ long long BUF_SZ = 2097152;
 int main() {
     char string[BUF_SZ];
     char* str;
-    While(1){
+    while(1){
         int i = 0;
         char symb;
         symb = getchar();
