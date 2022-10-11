@@ -75,15 +75,15 @@
 Время было измерено с использованием утилиты time  
 
 # Файл 4.3 Гб (большой)  
-![example](Figure_1.png)  
+![example](pictures/Figure_1.png)  
 
 # Файл 430 Мб (средний)  
-![example](Figure_2.png)  
+![example](pictures/Figure_2.png)  
 
 # Файл 43 Мб (малый)  
-![example](Figure_3.png)  
+![example](pictures/Figure_3.png)  
 
 # Файл 4.3 Мб (очень малый)  
-![example](Figure_4.png)  
+![example](pictures/Figure_4.png)  
 
 
