@@ -8,8 +8,13 @@ int main()
     while(1)
     {   
         fgets(cmd, ARG_MAX, stdin);
-        seq_pipe(cmd, Bash);
-        cmd_line_destructor(Bash);
+        if(strcmp(cmd, "\n") != 0)
+        { 
+            seq_pipe(cmd, Bash);
+            cmd_line_destructor(Bash);
+        }
+        else printf("ERROR with input\n");
+        
     }
     free(cmd);
     free(Bash);
