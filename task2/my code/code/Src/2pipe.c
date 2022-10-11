@@ -325,6 +325,12 @@ int main ()
 
         FILE* file_in = fopen("file.txt", "rb");
         
+        if(file_in == NULL)
+        {
+            printf("Reading data [File not open]\n");
+            return 0;
+        }
+
         str str_in = {};
         init_str(&str_in);
 
