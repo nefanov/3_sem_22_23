@@ -91,6 +91,11 @@ void close_f(Pipe* self) {
     if (self->read_d != NULL) fclose(self->read_d);
 }
 
+void dump_buf(Pipe* pipe) {
+    printf("Child: %s\n", pipe->data_rx);
+    printf("Parent: %s\n", pipe->data_tx);
+}
+
 //---------------------------------------------------------------
 typedef struct pOpTable {
     size_t (*recieve) (Pipe* self);
@@ -123,10 +128,11 @@ Pipe* PipeConstructor(size_t buf_size, OpTable* operations) {
     
     res->buf_sz = buf_size;
     res->cur_sent = buf_size;
+
     res->data_tx = (char*) calloc(buf_size, sizeof(char));
     res->data_rx = (char*) calloc(buf_size, sizeof(char));
-    int pipefd[2];
     
+    int pipefd[2];
     p_res_1 = pipe(pipefd);
     res->fd_rx[0] = pipefd[0];
     res->fd_tx[0] = pipefd[1];
@@ -157,6 +163,7 @@ void PipeDestructor(Pipe* pipe) {
 }
 
 int main(int argc, char *argv[]) {
+    //making in/out files
     char* read_name = "data.txt";
     char* write_name = "out.txt";
     printf("%d\n", argc);
@@ -173,8 +180,33 @@ int main(int argc, char *argv[]) {
             exit(1);
     }
     OpTable* operations = OpTableConstructor(recieve, send, write_f, read_f, open_f, close_f);
-    Pipe* pipe = PipeConstructor(2048, operations);
+    Pipe* pipe = PipeConstructor(4096, operations);
     pipe->actions->open_f(pipe, read_name, write_name);
+    //make fork
+    pid_t pid = fork();
+    if (pid == 0) {
+        //child
+        pipe->status = CHILD;
+        while (pipe->actions->recieve(pipe) != 0) {
+            pipe->actions->send(pipe);
+        }
+
+
+    } else if (pid > 0) {
+        //parent
+        pipe->status = PARENT;
+        while (pipe->actions->read_f(pipe) != 0) {
+            pipe->actions->send(pipe);
+            pipe->actions->recieve(pipe);
+            pipe->actions->write_f(pipe);
+        }
+
+
+    } else {
+        perror("fork error");
+        exit(1);
+    }
+
     PipeDestructor(pipe);
     return 0;
 }
