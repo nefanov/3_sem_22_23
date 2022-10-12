@@ -12,7 +12,7 @@
 #include <sys/msg.h>
 
 
-#define BF_SIZE 4080
+#define BF_SIZE 4000
 
 #define LAST_MSG 2
 

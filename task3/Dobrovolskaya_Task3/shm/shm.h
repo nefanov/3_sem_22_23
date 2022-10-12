@@ -11,7 +11,7 @@
 #include <fcntl.h>
 
 
-#define BF_SIZE 4080
+#define BF_SIZE 4000
 
 
 size_t send(char *shmem, int *shnum);

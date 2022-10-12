@@ -12,7 +12,7 @@
 #include <fcntl.h>
 
 
-#define BF_SIZE 4080
+#define BF_SIZE 65000
 
 
 size_t send(const char *name, int *shnum, int fifo);
