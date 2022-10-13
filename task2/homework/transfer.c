@@ -24,7 +24,7 @@ void constructPipe(Pipe* self)
 {
     assert(self);
 
-    FILE* parent = fopen("file.txt", "r");
+    FILE* parent = fopen("parent.txt", "r");
 
     self->len      = findFileSize(parent);
     self->lenParts = self->len / MAXBUFSIZE;
@@ -43,7 +43,6 @@ void constructPipe(Pipe* self)
 ssize_t readDuplex(Pipe* self, int curFd)
 {
     ssize_t tmp = read(curFd, self->dataIn, MAXBUFSIZE);
-
     return (tmp);
 }
 
