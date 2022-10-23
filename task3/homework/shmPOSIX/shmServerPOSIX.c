@@ -12,14 +12,14 @@
 
 const char* name = "HESOYAM";
 
-#define DEFAULT_SIZE 512
+#define DEFAULT_SIZE 65536
 
 #ifdef SMALL_SIZE
-#define SIZE 4096
+#define SIZE 4097
 #endif
 
 #ifdef MEDIUM_SIZE
-#define SIZE 104857600
+#define SIZE 104857601
 #endif
 
 #ifdef LARGE_SIZE
@@ -29,10 +29,13 @@ const char* name = "HESOYAM";
 
 int main()
 {
+    sleep(0,0001);
+
     int shm_fd = -1;
  
     void* ptr = NULL;
  
+
     shm_fd = shm_open(name, O_RDONLY, 0666);
  
     ptr = mmap(0, SIZE, PROT_READ, MAP_SHARED, shm_fd, 0);

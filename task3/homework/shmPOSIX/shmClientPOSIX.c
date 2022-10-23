@@ -9,15 +9,15 @@
 
 const char* name = "HESOYAM";
 
-#define DEFAULT_SIZE 512
+#define DEFAULT_SIZE 65536
 
 
 #ifdef SMALL_SIZE
-#define SIZE 4096
+#define SIZE 4097
 #endif
 
 #ifdef MEDIUM_SIZE
-#define SIZE 104857600
+#define SIZE 104857601
 #endif
 
 #ifdef LARGE_SIZE

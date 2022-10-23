@@ -7,7 +7,7 @@
 
 #define FIFO "fifo"
 
-#define DEFAULT_SIZE 512
+#define DEFAULT_SIZE 65536
 
 #ifdef SMALL_SIZE
 #define SIZE 4096

@@ -72,14 +72,14 @@ int main()
         return 1;
     }
 
-
     for (size_t bytes = SIZE; bytes > 0;)
-    {
+    {        
         fread(sbuf.mtext, sizeof(char), MAX_MSG_SIZE, in);
-        sleep(0,01);
-        if (msgsnd(msqid, &sbuf, MAX_MSG_SIZE, IPC_NOWAIT) < 0)
+        
+        if (msgsnd(msqid, &sbuf, MAX_MSG_SIZE, 0) < 0)
         {
-            perror("msg:");
+            perror("msg in SENDER:");
+            msgctl(msqid, IPC_RMID, NULL);
             exit(1);
         }
         bytes-=MAX_MSG_SIZE;

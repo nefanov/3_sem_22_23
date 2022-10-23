@@ -6,7 +6,7 @@
 #include <stdlib.h>
 
 
-#define DEFAULT_SIZE 512
+#define DEFAULT_SIZE 65536
 #define FIFO "fifo"
 
 #ifdef SMALL_SIZE

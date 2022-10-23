@@ -48,7 +48,7 @@ int main()
     {
         if (msgrcv(msqid, &rbuf, MAX_MSG_SIZE, DEFAULT_TYPE, 0) < 0)
         {
-            perror("msg:");
+            perror("msg in RECEIVER:");
             exit(1);
         }
         
