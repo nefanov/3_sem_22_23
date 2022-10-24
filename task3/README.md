@@ -24,3 +24,7 @@ Let's build fifo for example
   ```
   
   All measured data placed in log.txt      
+
+
+**Have fun!**     
+![Alt-текст](https://i.pinimg.com/originals/11/4a/f8/114af8f8aea2294641f950ed3dd85f46.jpg)
