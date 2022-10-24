@@ -17,7 +17,7 @@ Let's build fifo for example
    
   Then you'll receive read data in output.txt file that will be placed in HW dir.
   
-  All measures was provided using file.txt that was automatically via 
+  All measures was provided using file.txt that was automatically generated via 
   
 ```terminal
   $ time dd if=/dev/urandom of=file.txt bs=8192 count=4096  
