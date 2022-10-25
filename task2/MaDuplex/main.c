@@ -1,8 +1,3 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <unistd.h> // pipe
-
 #include <MaDuplex.h>
 
 /* [Description]
@@ -48,100 +43,62 @@ Version roadmap:
 
 */
 
-size_t direct_interact(duplexPipe *self, int pid)
+int main(int argc, const void* argv[])
 {
-    ;
-}
+    duplexPipe* dupPipe = NULL;
 
-size_t back_interact(duplexPipe *self, int pid)
-{
-    if (pid == CHILD)
+    switch(argc)
     {
-        printf("Back interact: CHILD\n");
-    }
-    else
-    {
-        printf("Back interact: PARENT\n");
-    }
-}
+        case 1:
+            dupPipe = duplexPipeCtor(STD_INPUT_NAME);
+            break;
+        case 2:
+            dupPipe = duplexPipeCtor(argv[1]);
+            break;
+        default:
+            PRINT_ERROR("Please, enter 0 or 1 cmd argument, like:\n"
+                        "$ ./MaDuplex std_input.txt\n");
+            return 1;
+    } 
 
-duplexPipe* duplexPipeCtor()
-{
-    LOG("Start CTOR");
-
-    duplexPipe* dupPipe = calloc(1, sizeof(duplexPipe));
-    if (!dupPipe) PRINT_ERROR("calloc null ptr");
-
-    memset(dupPipe->data, 0, BUFFER_SIZE); // Buffer is statically alloced inside object
-    dupPipe->len = 0;
-
-    // Create pipes
-    pipe(&dupPipe->fd_direct);
-    pipe(&dupPipe->fd_back);
-
-    // Init ops table
-    dupPipe->acts.direct_interact = direct_interact;
-    dupPipe->acts.back_interact = back_interact;
-}
-
-void duplexPipeDtor(duplexPipe* dupPipe, int pid)
-{
-    LOG("Start DTOR");
-
-    close(dupPipe->fd_direct[READ_FD]);
-    close(dupPipe->fd_direct[WRITE_FD]);
-    
-    close(dupPipe->fd_back[READ_FD]);
-    close(dupPipe->fd_back[WRITE_FD]);
-
-    if (pid != CHILD)
-    {
-        LOG("Dtor PARENT");
-        memset(dupPipe, 0, sizeof(duplexPipe));
-        free(dupPipe);
-    }
-    else
-    {
-        LOG("Dtor CHILD");
-    }
-}
-
-int main()
-{
-    duplexPipe* dupPipe = duplexPipeCtor();
-
-    // fork logic
     int pid = fork();
+    int packet_id = 0;
+    long long transfered_bytes = 0;
 
-    // while(1)
-    // {
-        if (pid < 0)
-        {
-            PRINT_ERROR("fork negative pid");
-        }
-        else if (pid == CHILD)
-        {
-            LOG("Enter CHILD");
-            dupPipe->acts.direct_interact(dupPipe, pid);
-            LOG("Exit CHILD");
-        }
-        else
-        {
-            LOG("Enter PARENT");
+    while(1)
+    {
+        LOGC("[Packet id: %d]", packet_id);
+        LOGP("[Packet id: %d]", packet_id++);
 
-            int wstatus = 0;
-            if (waitpid(pid, &wstatus, 0) == ERROR)
+        switch(pid)
+        {
+            case ERROR:
             {
-                PRINT_ERROR(strerror(errno));
-                return ERROR;
+                PRINT_ERROR("fork negative pid");
             }
+            case CHILD:
+            {
+                LOGC("Enter CHILD");
 
-            dupPipe->acts.direct_interact(dupPipe, pid);
-        
-            LOG("Child %u exited with code %d", pid, WEXITSTATUS(wstatus));
-            LOG("Exit PARENT");
+                dupPipe->acts.direct_interact(dupPipe, pid);
+                dupPipe->acts.back_interact(dupPipe, pid);
+
+                LOGC("Exit CHILD");
+            }
+            default: // PARENT
+            {
+                LOGP("Enter PARENT");
+
+                // Write to buff
+                dupPipe->acts.direct_interact(dupPipe, pid);
+                int write_ret = dupPipe->acts.back_interact(dupPipe, pid);
+                transfered_bytes += write_ret;
+                printf("Transfered %lld | %ld kilo bytes\r", transfered_bytes / 1024, dupPipe->input_size);
+                fflush(stdout);
+                LOGP("Exit PARENT");
+            }
         }
-    //}
-
+    }
+    puts("");
     duplexPipeDtor(dupPipe, pid);
 }

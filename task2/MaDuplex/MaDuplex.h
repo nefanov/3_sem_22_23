@@ -2,11 +2,36 @@
 
 #include <stdlib.h>
 #include <errno.h>
+#include <stdio.h>
+#include <string.h>
+#include <unistd.h> // pipe
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
+#include <sys/wait.h>
 
-#define PRINT_ERROR(msg) printf("[ERROR] In %s function %s line %d:\n\t%s\n", __FILE__, __func__, __LINE__, msg);
-#define LOG(...) fprintf(stdout, "[INFO]" __VA_ARGS__); putc('\n', stdout)
+#define DEBUG
+#undef DEBUG
 
-#define BUFFER_SIZE 4096
+#ifdef DEBUG
+
+    #define PRINT_ERROR(msg) printf("[ERROR] In %s function %s line %d:\n\t%s\n", __FILE__, __func__, __LINE__, msg);
+    #define LOG(...) fprintf(stdout, "[INFO]" __VA_ARGS__); putc('\n', stdout)
+    #define LOGP(...) logp(__VA_ARGS__)
+    #define LOGC(...) logc(__VA_ARGS__)
+
+#else
+
+    #define PRINT_ERROR(msg)
+    #define LOG(...)
+    #define LOGP(...)
+    #define LOGC(...)
+
+#endif
+
+#define BUFFER_SIZE 65536
+#define STD_INPUT_NAME "input.txt"
+#define STD_OUTPUT_NAME "output.txt"
 
 #define CHILD 0
 #define ERROR -1
@@ -21,8 +46,8 @@ typedef struct duplexPipe duplexPipe;
 
 struct dupPipeOps
 {
-    size_t (*direct_interact)(duplexPipe *self, int pid); // rename to direct_interact?
-    size_t (*back_interact)(duplexPipe *self, int pid); // back interacts
+    size_t (*direct_interact)(duplexPipe *self, int pid);
+    size_t (*back_interact)(duplexPipe *self, int pid);
 };
 
 struct duplexPipe
@@ -31,9 +56,19 @@ struct duplexPipe
     int fd_direct[2]; // for send() call (parent-->child)
     int fd_back[2]; // for receive() call (child-->parent)
     size_t len; // data length in intermediate buffer
-    dupPipeOps acts;
+    
+    int input_fd;
+    size_t input_size;
+    int output_fd;
 
+    dupPipeOps acts;
 };
 
 
-duplexPipe* duplexPipeCtor();
+duplexPipe* duplexPipeCtor(const char* output_name);
+void duplexPipeDtor(duplexPipe* dupPipe, int pid);
+size_t direct_interact(duplexPipe *self, int pid);
+size_t back_interact(duplexPipe *self, int pid);
+
+void logp (const char* format, ...);
+void logc (const char* format, ...);
