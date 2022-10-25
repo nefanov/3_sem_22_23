@@ -17,7 +17,7 @@ ___FLAGS:___ ```-small```, ```-medium```, ```-large```<br/>
 
 |FLAG  | -small |-medium|-large|
 |------|--------|-------|------|
-|INPUT | 4kB    | 104Mb |2.1Gb |
+|INPUT | 4kB    | 104MB |2.1GB |
 
 
 |BUF IN BYTES  |512 | 4096 | 65536 | 
