@@ -26,6 +26,11 @@ ___FLAGS:___ ```-small```, ```-medium```, ```-large```<br/>
 
 ### GRAPH: 
 
+![Imaga small](https://github.com/shaazmik/3_sem_22_23/blob/main/task3/homework/img/small.png?raw=true)
+<br/>
+![Image medium](https://github.com/shaazmik/3_sem_22_23/blob/main/task3/homework/img/medium.png?raw=true)
+<br/>
+![Image large](https://github.com/shaazmik/3_sem_22_23/blob/main/task3/homework/img/large.png?raw=true)
 
 
 ### CONCLUSION: 
