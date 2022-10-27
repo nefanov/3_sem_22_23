@@ -4,14 +4,46 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <math.h>
+#include <pthread.h>
 
+
+#define PTHREAD_MAX 100
+#define NPOINTS 100000
 #define YMAX 225
 #define XMAX 15
-#define STEPSCALE 0.1
+#define YMIN 0
+#define XMIN 0
+
 #define EPS 0.000001
+//-----------------------------------------
+struct PthreadData
+{
+    double xmin;
+    double ymin;
 
-double func(double x);
+    double xmax;
+    double ymax;
 
-void calculate(double(*func)(double), int xmax, int ymax);
+    double(*func)(double);
+};
+
+
+pthread_mutex_t mutex;
+
+static int P = 0;
+
+//------------------------------------------
+
+
+int integralMonteCarlo(int xmax, int ymax, int xmin, int ymin, int count, double(*func)(double));
+
+short isEqual(double x, double y);
+
+void calculate(double(*func)(double), int xmax, int ymax, int xmin, int ymin);
+
+void* pthreadCalcStep(void* data);
+
+void printAnswer(double square, int xmax, int xmin);
+
 
 #endif
