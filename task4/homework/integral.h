@@ -7,7 +7,7 @@
 #include <pthread.h>
 
 
-#define PTHREAD_MAX 100
+#define PTHREAD_SQR 2
 #define NPOINTS 100000
 #define YMAX 225
 #define XMAX 15
@@ -35,7 +35,7 @@ static int P = 0;
 //------------------------------------------
 
 
-int integralMonteCarlo(int xmax, int ymax, int xmin, int ymin, int count, double(*func)(double));
+int integralMonteCarlo(double xmax,double ymax,double xmin,double ymin,int count,double(*func)(double));
 
 short isEqual(double x, double y);
 
