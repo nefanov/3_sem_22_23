@@ -8,11 +8,11 @@
 
 
 #define PTHREAD_SQR 2
-#define NPOINTS 100000
-#define YMAX 225
-#define XMAX 15
+#define NPOINTS 100000000
+#define YMAX 8886110
+#define XMAX 4
 #define YMIN 0
-#define XMIN 0
+#define XMIN -1
 
 #define EPS 0.000001
 //-----------------------------------------

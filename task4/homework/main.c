@@ -4,11 +4,10 @@
 
 
 extern int P;
-// y = x^2
 
 double func(double x)
 {
-    return x*x;
+    return exp(x*x);
 }
 
 short isEqual(double x, double y)
@@ -33,8 +32,6 @@ int integralMonteCarlo(double xmax, double ymax, double xmin, double ymin, int c
         if ( y <= func(x)) points++;
     }
 
-    printf("POINTS Integral %d\n", points);
-    printf("xmax:%lf xmin:%lf ymax:%lf ymin:%lf\n", xmax, xmin, ymax, ymin);
     return points;
 }
 
@@ -53,11 +50,10 @@ void* pthreadCalcStep(void* data)
     double xmin = integralData->xmin;
     double ymin = integralData->ymin;
 
-    pthread_mutex_lock(&mutex);
-
     int points = integralMonteCarlo(xmax, ymax, xmin, ymin, NPOINTS/(PTHREAD_SQR * PTHREAD_SQR), integralData->func);
 
-    
+    pthread_mutex_lock(&mutex);
+
     P += points;
 
     pthread_mutex_unlock(&mutex);
@@ -71,46 +67,29 @@ void calculate(double(*func)(double), int xmax, int ymax, int xmin, int ymin)
     double square = (xmax-xmin) * (ymax-ymin);
     double xStep  = (xmax-xmin) * stepScale;
     double yStep  = (ymax-ymin) * stepScale;
-    double curX   = 0;
-    double curY   = 0;
+    double curX   = xmin;
+    double curY   = ymin;
 
     struct PthreadData integralData[PTHREAD_SQR * PTHREAD_SQR];
 
-    pthread_t tid[PTHREAD_SQR * PTHREAD_SQR];
-    $
+    pthread_t           tid[PTHREAD_SQR * PTHREAD_SQR];
+
     for (int i = 0; i < PTHREAD_SQR; i++)
     {   
         curY = 0;
-        $
         for (int j = 0; j < PTHREAD_SQR; j++)
         {
-            printf("pos:%d\n", i*PTHREAD_SQR + j);
             integralData[i*PTHREAD_SQR + j].xmin = curX;
             integralData[i*PTHREAD_SQR + j].ymin = curY;
             integralData[i*PTHREAD_SQR + j].xmax = curX + xStep;
             curY += yStep;
             integralData[i*PTHREAD_SQR + j].ymax = curY;
-            $
+            integralData[i*PTHREAD_SQR + j].func = func;
             pthread_create(tid + i*PTHREAD_SQR + j, NULL, pthreadCalcStep, (void*)(integralData + i*PTHREAD_SQR + j));
-            $
         }
         curX += xStep;
     }
-    $
 
-    // for (int i = 0; i < (PTHREAD_SQR * PTHREAD_SQR); i++)
-    // {
-    //     integralData[i].xmin = curX;
-    //     integralData[i].ymin = curY;
-    //     curX += xStep;
-    //     curY += yStep;
-    //     integralData[i].xmax = curX;
-    //     integralData[i].ymax = curY;
-    //     integralData[i].func = func;
-        
-        
-    //     pthread_create(tid + i, NULL, pthreadCalcStep,(void*)(integralData + i));
-    // }
 
     for(int i = 0; i < (PTHREAD_SQR * PTHREAD_SQR); i++)
     {
@@ -137,3 +116,5 @@ int main()
 
     return 0;
 }
+
+// pthread 1 = 2,301s pthread 4 = 0,609s pthread 2 = 1,139s pthread 3 = 0,980s pthread 9 = 0,610 etc
