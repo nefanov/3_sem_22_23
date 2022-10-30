@@ -50,7 +50,7 @@ void* pthreadCalcStep(void* data)
     double xmin = integralData->xmin;
     double ymin = integralData->ymin;
 
-    int points = integralMonteCarlo(xmax, ymax, xmin, ymin, NPOINTS/(PTHREAD_SQR * PTHREAD_SQR), integralData->func);
+    int points = integralMonteCarlo(xmax, ymax, xmin, ymin, NPOINTS/(PTHREAD_SQRT * PTHREAD_SQRT), integralData->func);
 
     pthread_mutex_lock(&mutex);
 
@@ -63,35 +63,35 @@ void calculate(double(*func)(double), int xmax, int ymax, int xmin, int ymin)
 {
     pthread_mutex_init(&mutex, NULL);
     
-    double stepScale = (1.0/PTHREAD_SQR);
+    double stepScale = (1.0/PTHREAD_SQRT);
     double square = (xmax-xmin) * (ymax-ymin);
     double xStep  = (xmax-xmin) * stepScale;
     double yStep  = (ymax-ymin) * stepScale;
     double curX   = xmin;
     double curY   = ymin;
 
-    struct PthreadData integralData[PTHREAD_SQR * PTHREAD_SQR];
+    struct PthreadData integralData[PTHREAD_SQRT * PTHREAD_SQRT];
 
-    pthread_t           tid[PTHREAD_SQR * PTHREAD_SQR];
+    pthread_t           tid[PTHREAD_SQRT * PTHREAD_SQRT];
 
-    for (int i = 0; i < PTHREAD_SQR; i++)
+    for (int i = 0; i < PTHREAD_SQRT; i++)
     {   
         curY = 0;
-        for (int j = 0; j < PTHREAD_SQR; j++)
+        for (int j = 0; j < PTHREAD_SQRT; j++)
         {
-            integralData[i*PTHREAD_SQR + j].xmin = curX;
-            integralData[i*PTHREAD_SQR + j].ymin = curY;
-            integralData[i*PTHREAD_SQR + j].xmax = curX + xStep;
+            integralData[i*PTHREAD_SQRT + j].xmin = curX;
+            integralData[i*PTHREAD_SQRT + j].ymin = curY;
+            integralData[i*PTHREAD_SQRT + j].xmax = curX + xStep;
             curY += yStep;
-            integralData[i*PTHREAD_SQR + j].ymax = curY;
-            integralData[i*PTHREAD_SQR + j].func = func;
-            pthread_create(tid + i*PTHREAD_SQR + j, NULL, pthreadCalcStep, (void*)(integralData + i*PTHREAD_SQR + j));
+            integralData[i*PTHREAD_SQRT + j].ymax = curY;
+            integralData[i*PTHREAD_SQRT + j].func = func;
+            pthread_create(tid + i*PTHREAD_SQRT + j, NULL, pthreadCalcStep, (void*)(integralData + i*PTHREAD_SQRT + j));
         }
         curX += xStep;
     }
 
 
-    for(int i = 0; i < (PTHREAD_SQR * PTHREAD_SQR); i++)
+    for(int i = 0; i < (PTHREAD_SQRT * PTHREAD_SQRT); i++)
     {
         pthread_join(tid[i], NULL);
     }
