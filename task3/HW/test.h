@@ -3,7 +3,7 @@
 #define RED "\x1b[31m"
 #define ESC "\x1b[0m"
 #define NAME "MAYHEM"
-#define DEF_KEY 10
+#define DEF_KEY 1493
 #define DEF_T 1488
 
 #ifdef SMALL_TEST

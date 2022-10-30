@@ -1,13 +1,14 @@
 #include <sys/types.h>
+#include <sys/stat.h>
 #include <sys/ipc.h>
 #include <sys/msg.h>
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
 
 #include "../test.h"
 
-#define MSG_SIZE 6//24
-
+#define MSG_SIZE 1024
 
 typedef struct msgbuf {
     long    mtype;
@@ -21,6 +22,10 @@ int main(int argc, char* argv[]) {
     key_t key = DEF_KEY;
     message_buf snd_buf;
 
+    for(int i = 0; i < MSG_SIZE; i++) {
+        snd_buf.mtext[i] = '\0';
+    }
+
     if ((msqid = msgget(key, msgflg )) < 0) {
         perror("msgget");
         return -1;
@@ -31,8 +36,7 @@ int main(int argc, char* argv[]) {
     snd_buf.mtype = DEF_T;
     
     printf("msgget: msgget succeeded: msqid = %d\n", msqid);
-    
-    //else  printf("msgget: msgget succeeded: msqid = %d\n", msqid);
+
 
     if (argc < 2) {
         fprintf(stderr, "%s%s%s\n", RED, "ERROR, FILE WASN'T INPUTED", ESC);
@@ -44,33 +48,35 @@ int main(int argc, char* argv[]) {
         return -1;
     }
 
-
-    snd_buf.mtype = DEF_T;
     size_t size = 0;
 
-    while( (size = fread(snd_buf.mtext, sizeof(char), MSG_SIZE, input)) > 0) {
+    struct stat code_stat = { };
+
+    if ( fstat ( fileno(input), &code_stat) == -1 ) {
+        fprintf(stderr, "%s%s%s\n", RED, "ERROR GETTING FILE SIZE", ESC);
+        return -1;
+    }
+
+    size_t file_size = (size_t)code_stat.st_size;
+    memcpy(snd_buf.mtext, &file_size, sizeof(size_t));
+    snd_buf.mtext[sizeof(size_t)] = '\0';
+    msgsnd(msqid, &snd_buf, strlen(snd_buf.mtext), 0); 
+
+    printf("%lu\n", file_size);
+
+    while( (size = fread(snd_buf.mtext, sizeof(char), MSG_SIZE - 1, input)) > 0) {
         
-        if (msgsnd(msqid, &snd_buf, size, IPC_NOWAIT) < 0) {
+        snd_buf.mtext[MSG_SIZE - 1] = '\0';
+
+        if (msgsnd(msqid, &snd_buf, size, 0) < 0) {
         printf ("%d, %ld, %s, %ld\n", msqid, snd_buf.mtype, snd_buf.mtext, size);
         perror("msgsnd");
         return -1;
-        }else 
-       printf("Message: \"%s\" Sent\n", snd_buf.mtext);
+        }
 
     }
 
     fclose(input);
-    
-    /*buf_length = strlen(sbuf.mtext) + 1 ; // данные сообщения по прежнему считаем '\0'-terminated - строкой.
-    
-    if (msgsnd(msqid, &sbuf, buf_length, IPC_NOWAIT) < 0) {
-       printf ("%d, %d, %s, %d\n", msqid, sbuf.mtype, sbuf.mtext, buf_length);
-        perror("msgsnd");
-        exit(1);
-    }
-
-   else 
-      printf("Message: \"%s\" Sent\n", sbuf.mtext);*/
       
     return 0;
 }
