@@ -6,11 +6,11 @@
 #include <cmath>
 
 
-#define THREADS 2
+#define THREADS 4
 #define DOMAIN_UP 1
-#define DOMAIN_DOWN 0
+#define DOMAIN_DOWN -1
 #define RANGE_UP 1
-#define RANGE_DOWN 0
+#define RANGE_DOWN -1
 
 
 double integral = 0;
@@ -37,8 +37,6 @@ void *counter(void *arg)
     x2 = ((double*)arg)[1];
     y1 = ((double*)arg)[2];
     y2 = ((double*)arg)[3];
-
-    printf("Аргументы %f %f %f %f\n", x1, x2, y1, y2);
     
     double square = 0;
 
@@ -53,9 +51,13 @@ void *counter(void *arg)
     	
         value = func(x);
 
-    	if ((value > 0 && y < value) || (value < 0 && y > value))
+    	if (value > 0 && y < value)
         {
             square += 1;
+        }
+        else if (value < 0 && y > value)
+        {
+            square -= 1;
         }
     }
 
@@ -71,7 +73,6 @@ void add_in_integral(double integral_i)
     pthread_mutex_lock(&mutex);
 
     integral += integral_i;
-    printf("Новое значение %f\n", integral);
  
     pthread_mutex_unlock(&mutex);
 }
