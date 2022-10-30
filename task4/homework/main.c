@@ -76,7 +76,7 @@ void calculate(double(*func)(double), int xmax, int ymax, int xmin, int ymin)
 
     for (int i = 0; i < PTHREAD_SQRT; i++)
     {   
-        curY = 0;
+        curY = ymin;
         for (int j = 0; j < PTHREAD_SQRT; j++)
         {
             integralData[i*PTHREAD_SQRT + j].xmin = curX;
