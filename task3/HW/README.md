@@ -15,12 +15,11 @@
 
 Иногда может быть нужно sudo
 
-### Тесты были проведены со следующими параметрами:
+###Параметры:
 
 |NAMES| S | M | L |
 |------|--------------|------------|----------| 
 |BUF SIZES| 512 | 4096 | 65536 |
-|------|--------------|------------|----------| 
 |INPUT FILE SIZES | 4kB          | 100MB      | 2GB |
 
 
@@ -28,11 +27,12 @@
 
 После получения информации о веременах работы различных прототипов синхронизации, получаем графики для различных случаев:
 
-![Image Large]()
+![Image small](https://github.com/awesomeslayer/3_sem_22_23/blob/main/task3/HW/images/Small.jpg)
 <br/>
-![Image Medium]()
+![Image Medium](https://github.com/awesomeslayer/3_sem_22_23/blob/main/task3/HW/images/Medium.jpg)
 <br/>
-![Image small]()
+![Image Large](https://github.com/awesomeslayer/3_sem_22_23/blob/main/task3/HW/images/Large.jpg)
+
 
 
 ### Выводы: 
