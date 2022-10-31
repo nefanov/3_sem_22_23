@@ -3,15 +3,13 @@
 #include <sys/msg.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
-
-#define MSG_SIZE     1024 // < /proc/sys/fs/mqueue/msg_max 
+#include <string.h>  
 
 #include "../test.h"
 
 typedef struct msgbuf {
     long    mtype;
-    char    mtext[MSG_SIZE];
+    char    mtext[SIZE];
 } message_buf;
 
 
@@ -41,7 +39,7 @@ int main()
         exit(1);
     }
 
-    if (msgrcv(msqid, &rbuf, MSG_SIZE, DEF_T, 0) < 0) {
+    if (msgrcv(msqid, &rbuf, SIZE, DEF_T, 0) < 0) {
         perror("msgrcv");
         exit(1);
     }
@@ -50,10 +48,11 @@ int main()
     size_t file_size = 0;
     memcpy(&file_size, rbuf.mtext, sizeof(size_t));
     int size = 0;
+    printf("%lu\n", file_size); 
 
     while( file_size ){
  
-        if ( (size = msgrcv(msqid, &rbuf, MSG_SIZE, DEF_T, 0)) < 0) {
+        if ( (size = msgrcv(msqid, &rbuf, SIZE, DEF_T, 0)) < 0) {
             perror("msgrcv");
             exit(1);
         }
@@ -62,6 +61,7 @@ int main()
         fwrite(rbuf.mtext, sizeof(char), size, out);
     }
     fclose(out);
+    msgctl(msqid, IPC_RMID, (struct msqid_ds*)&rbuf); 
 
     return 0; 
 }

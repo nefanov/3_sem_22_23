@@ -40,7 +40,7 @@ int main(int argc, char *argv[]) {
 
     while (( size = fread(buf, sizeof(char), SIZE - 1, input)) > 0) {
         buf[size] = '\0';
-        //printf("Send: %s", buf);
+        //printf("Send: %s", buf);    
         write(fd, buf, size);
     }
     fclose(input);

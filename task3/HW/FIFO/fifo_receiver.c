@@ -5,7 +5,7 @@
 #include <sys/stat.h>
 #include <fcntl.h>
 
-
+    
 #define FIFO "sample_text"
 #define RED "\x1b[31m"
 #define ESC "\x1b[0m"

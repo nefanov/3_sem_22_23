@@ -8,11 +8,9 @@
 
 #include "../test.h"
 
-#define MSG_SIZE 1024
-
 typedef struct msgbuf {
     long    mtype;
-    char    mtext[MSG_SIZE];
+    char    mtext[SIZE];
 } message_buf;
 
 int main(int argc, char* argv[]) {
@@ -21,10 +19,6 @@ int main(int argc, char* argv[]) {
     int msgflg = IPC_CREAT | 0666;
     key_t key = DEF_KEY;
     message_buf snd_buf;
-
-    for(int i = 0; i < MSG_SIZE; i++) {
-        snd_buf.mtext[i] = '\0';
-    }
 
     if ((msqid = msgget(key, msgflg )) < 0) {
         perror("msgget");
@@ -60,16 +54,24 @@ int main(int argc, char* argv[]) {
     size_t file_size = (size_t)code_stat.st_size;
     memcpy(snd_buf.mtext, &file_size, sizeof(size_t));
     snd_buf.mtext[sizeof(size_t)] = '\0';
-    msgsnd(msqid, &snd_buf, strlen(snd_buf.mtext), 0); 
+    //printf("%lu\n", file_size);
+
+    if (msgsnd(msqid, &snd_buf, sizeof(size_t)/*strlen(snd_buf.mtext)*/, 0) < 0){  
+
+        perror("msgsnd");
+        return -1;
+
+    } 
 
     printf("%lu\n", file_size);
 
-    while( (size = fread(snd_buf.mtext, sizeof(char), MSG_SIZE - 1, input)) > 0) {
+    while( (size = fread(snd_buf.mtext, sizeof(char), SIZE - 1, input)) > 0) {
         
-        snd_buf.mtext[MSG_SIZE - 1] = '\0';
+        snd_buf.mtext[SIZE - 1] = '\0';
 
         if (msgsnd(msqid, &snd_buf, size, 0) < 0) {
-        printf ("%d, %ld, %s, %ld\n", msqid, snd_buf.mtype, snd_buf.mtext, size);
+    
+        //printf ("%d, %ld, %s, %ld\n", msqid, snd_buf.mtype, snd_buf.mtext, size); 
         perror("msgsnd");
         return -1;
         }

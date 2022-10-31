@@ -6,11 +6,12 @@
 #include <sys/stat.h>
 #include <sys/mman.h>
 #include <unistd.h>
+#include <semaphore.h>
 
 #include "../test.h"
 
 int main(int argc, char *argv[]) {
-
+ 
     if (argc < 2) {
         fprintf(stderr, "%s%s%s\n", RED, "ERROR, FILE WASN'T INPUTED", ESC);
         return -1;
@@ -29,47 +30,48 @@ int main(int argc, char *argv[]) {
     }
 
     size_t file_size = (size_t)code_stat.st_size;
-    /* the size (in bytes) of shared memory object */
-    if ( file_size >= SHM_SIZE) {
-        fprintf(stderr, "%s%s%s\n", RED, "ERROR, FILE SIZE IS GREATER THEN SHM_SIZE", ESC);
-        fprintf(stderr, "FILE SIZE IS %lu\n", file_size);
-        return -1;
-    }
 
-    /* name of the shared memory object */
     const char* name = NAME;
- 
-    /* strings written to shared memory */
-    //const char* message_0 = "Hello";
-    //const char* message_1 = "World!";
- 
-    /* shared memory file descriptor */
     int shm_fd;
- 
-    /* pointer to shared memory object */
     void* ptr;
-    
-      
-    /* create the shared memory object */
     shm_fd = shm_open(name, O_CREAT | O_RDWR, 0666);
-
-    /* configure the size of the shared memory object */
-    ftruncate(shm_fd, SHM_SIZE/*file_size*/);
-    
-    /* memory map the shared memory object */
-    ptr = mmap(0, SHM_SIZE, PROT_WRITE, MAP_SHARED, shm_fd, 0);
+    ftruncate(shm_fd, SIZE);
+    ptr = mmap(0, SIZE, PROT_WRITE, MAP_SHARED, shm_fd, 0);
 
     if(ptr == MAP_FAILED) {
         perror("mmap");
         return -1;
     }
-    *(size_t*)ptr = file_size;
-    size_t ptr_size = 0, tmp_size = sizeof(size_t);
-    while ( (ptr_size = fread((char*)ptr + tmp_size, sizeof(char), SIZE, input) ) > 0) {
-        tmp_size += ptr_size;
-        //printf("DEBUG\n");
-    }  
 
-    /* write to the shared memory object */
+    sem_t* sem, *sem1;
+    if ( (sem = sem_open(SEMAPHORE_NAME, 0)) == SEM_FAILED ) {
+        perror("sem_open");
+        return 1;
+    }
+
+    if ( (sem1 = sem_open(SEMA_NAME, 0)) == SEM_FAILED ) {
+        perror("sem_open");
+        return 1;
+    }
+
+
+    *(size_t*)ptr = file_size;
+    printf("%lu\n", *(size_t*)ptr);
+    size_t ptr_size = 0;
+    sem_post(sem); 
+ 
+    while ( file_size > 0){     
+ 
+        sem_wait(sem1);
+        ptr_size = fread((char*)ptr, sizeof(char), SIZE, input); 
+        file_size -= ptr_size;
+        sem_post(sem);
+
+    }
+
+    shm_unlink(name);
+    sem_close(sem);
+    fclose(input); 
+
     return 0;
 }
