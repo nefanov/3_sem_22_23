@@ -13,7 +13,9 @@ Let's build fifo for example
   $ ./rcv
   ```
   
-  After launching program from terminal using ./snd you have to open another terminal for launching reciever by ./rcv      
+  After launching program from terminal using ./snd you have to open another terminal for launching receiver by ./rcv
+  
+  But in case of shared memory you should launch receiver first
    
   Then you'll receive read data in output.txt file that will be placed in HW dir.
   
@@ -24,7 +26,12 @@ Let's build fifo for example
   ```
   
   All measured data placed in log.txt      
-
+  
+  Plot layout:
+  
+    Blue data was gotten by using FIFO ipc
+    Black data was gotten by using Shared memory ipc
+    Orange data was gotten by using Massege Queue ipc
 
 **Have fun!**     
 ![Alt-текст](https://i.pinimg.com/originals/11/4a/f8/114af8f8aea2294641f950ed3dd85f46.jpg)
