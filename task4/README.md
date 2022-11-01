@@ -34,7 +34,7 @@
 
 ### График
 Представим график t(threads)\
-![Integral_pic]()
+![Integral_pic](https://github.com/awesomeslayer/3_sem_22_23/blob/main/task4/HW/images/integral_pic.jpg)
 <br/>
 
 ### Выводы
