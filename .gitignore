@@ -1,0 +1,5 @@
+.vscode/settings.json
+task3/solution/SharedMemory/shm_client
+task3/solution/SharedMemory/shm_server
+task3/solution/SharedMemory/obj/shm_client.o
+task3/solution/SharedMemory/obj/shm_server.o
