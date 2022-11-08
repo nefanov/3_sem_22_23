@@ -6,8 +6,8 @@
 
 ### GRAPH: 
 
-![Imaga small](https://github.com/alexeygrishenin/3_sem_22_23/raw/tree/main/task3/task3_solution/small.png)
+![Image small](https://github.com/alexeygrishenin/3_sem_22_23/blob/main/task3/task3_solution/small.png)
 <br/>
-![Image medium]()
+![Image medium](https://github.com/alexeygrishenin/3_sem_22_23/blob/main/task3/task3_solution/medium.png)
 <br/>
-![Image large]()
+![Image large](https://github.com/alexeygrishenin/3_sem_22_23/blob/main/task3/task3_solution/bid.png)
