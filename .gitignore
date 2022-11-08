@@ -3,3 +3,8 @@ task3/solution/SharedMemory/shm_client
 task3/solution/SharedMemory/shm_server
 task3/solution/SharedMemory/obj/shm_client.o
 task3/solution/SharedMemory/obj/shm_server.o
+task3/solution/MessageQueues/msq_client
+task3/solution/MessageQueues/msq_server
+task3/solution/MessageQueues/obj/msq_client.o
+task3/solution/MessageQueues/obj/msq_server.o
+task3/solution/~$Time.xlsx

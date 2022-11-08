@@ -20,7 +20,8 @@ for file in files:
     for buf in bufs:
         print('~~~buf: ' + buf + ' ~~~')
 
-        sender = 'time ' + prefixProgram + 'SharedMemory/./shm_server ' + buf + prefixText + file
-        receiver = 'time ' + prefixProgram + 'SharedMemory/./shm_client ' + buf + prefixText + file + ' ' + outputFile
-        os.system(sender)
-        os.system(receiver)
+        sender = 'time ' + prefixProgram + 'MessageQueues/./msq_server ' + buf + prefixText + file
+        receiver = 'time ' + prefixProgram + 'MessageQueues/./msq_client ' + buf + prefixText + file + ' ' + outputFile
+        cmd = sender + '&' + receiver
+        os.system(cmd)
+        # os.system(receiver)
