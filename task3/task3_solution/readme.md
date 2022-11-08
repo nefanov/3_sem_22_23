@@ -6,7 +6,7 @@
 
 ### GRAPH: 
 
-![Imaga small](https://github.com/alexeygrishenin/3_sem_22_23/tree/main/task3/task3_solution/small.png)
+![Imaga small](https://github.com/alexeygrishenin/3_sem_22_23/raw/tree/main/task3/task3_solution/small.png)
 <br/>
 ![Image medium]()
 <br/>
