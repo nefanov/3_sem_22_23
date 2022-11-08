@@ -14,7 +14,7 @@
 #include <unistd.h>
 
 const long POINTS_NUM = 100000000;
-const int THREADS_NUM = 5;
+const int THREADS_NUM = 25;
 const int SHM_SZ = 2;
 
 const int KEY = 123456;
