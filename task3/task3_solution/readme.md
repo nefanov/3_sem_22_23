@@ -10,4 +10,4 @@
 <br/>
 ![Image medium](https://github.com/alexeygrishenin/3_sem_22_23/blob/main/task3/task3_solution/medium.png)
 <br/>
-![Image large](https://github.com/alexeygrishenin/3_sem_22_23/blob/main/task3/task3_solution/bid.png)
+![Image large](https://github.com/alexeygrishenin/3_sem_22_23/blob/main/task3/task3_solution/big.png)
