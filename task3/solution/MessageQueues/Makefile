@@ -6,7 +6,8 @@ TARGET_2 = msq_server
 CC = gcc
 
 ifdef DEBUG
-	CFLAGS = '-D _DEBUG -ggdb3 -Wall -Werror -Wpedantic -fstack-protector-all -Wextra -fsanitize=address,alignment,bool,bounds,enum,float-cast-overflow,float-divide-by-zero \
+	CFLAGS = '-D _DEBUG -ggdb3 -Wall -Werror -Wpedantic -fstack-protector-all -Wextra -fsanitize=address,undefined,alignment,bool,bounds,enum,float-cast-overflow, \
+	float-divide-by-zero \
 	integer-divide-by-zero,leak,nonnull-attribute,null,object-size,return,returns-nonnull-attribute,shift,signed-integer-overflow,\
 	undefined,unreachable,vla-bound,vptr'
 else

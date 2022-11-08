@@ -30,15 +30,8 @@ int main(int argc, char **argv) {
     FILE *input_f = fopen(argv[2], "r");
     ASSERTED(fopen, input_f, NULL, -1);
 
-    struct stat stat_buf;
-    size_t f_size = 0;
-
-    if (fstat(fileno(input_f), &stat_buf) == 0)
-        f_size = stat_buf.st_size;
-    else {
-        perror("fstat failed");
-        return -1;
-    }
+    int f_size = GetFSize(input_f);
+    ASSERTED(GetFSize, f_size, -1, -1);
 
     FILE *output_f = fopen(argv[3], "w");
     ASSERTED(fopen, output_f, NULL, -1);
