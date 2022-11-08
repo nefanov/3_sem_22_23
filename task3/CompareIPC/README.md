@@ -17,10 +17,10 @@ Explored buffer sizes:
 * 1024 b
 * 4096 b
 
-![](Plots/LIT.png)
+![](Plots/LIT_.png)
 
-![](Plots/MID.png)
+![](Plots/MID_.png)
 
-![](Plots/BIG.png)
+![](Plots/BIG_.png)
 
 As we see for big files shared memory loses due to time expenses in synchronization.
