@@ -1,0 +1,2 @@
+all:
+	g++ main_send.cpp func.cpp -o send -Wall -Wextra -Wpedantic -fsanitize=address
