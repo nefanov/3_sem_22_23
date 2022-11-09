@@ -4,16 +4,21 @@
 
 ### Tests were carried out with these parameters
 
-|         File size         |
+| File size |        |      |
+|-----------|--------|------|
+| small     | medium | big  |
+| 1 KB      | 1 MB   | 1 GB |
+
+| Buffer size |        |      |
 |-----------|--------|------|
 | small     | medium | big  |
 | 1 KB      | 1 MB   | 1 GB |
 
 
-|         Buffer size       |
-|-----------|--------|------|
-| small     | medium | big  |
-| 8 B       | 1 MB   | 1 GB |
+| Buff size |        |        |
+|-----------|--------|--------|
+| SMALL     | MEDIUM | BIG    |
+| 8 B       | 1024 B | 4096 B |
 
 
 ### GRAPH: 
