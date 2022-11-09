@@ -12,3 +12,5 @@ task3/solution/FIFO/fifo_server
 task3/solution/FIFO/obj/fifo_client.o
 task3/solution/FIFO/obj/fifo_server.o
 task3/solution/CommonFunctions/obj/CommonFunctions.o
+task3/solution/Time.xlsx
+task3/solution/FIFO/fifo_client

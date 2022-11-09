@@ -9,6 +9,6 @@
 #include <sys/stat.h>
 #include "../../CommonFunctions/src/CommonFunctions.hpp"
 
-const char FIFO_NAME[] = "~/";
+const char FIFO_NAME[] = "/tmp/fifo";
 
 #endif
