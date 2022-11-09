@@ -14,3 +14,9 @@ task3/solution/FIFO/obj/fifo_server.o
 task3/solution/CommonFunctions/obj/CommonFunctions.o
 task3/solution/Time.xlsx
 task3/solution/FIFO/fifo_client
+task4/solution/Integrator
+task4/solution/log.txt
+task4/solution/obj/CommonFunctions.o
+task4/solution/obj/Integral.o
+task4/solution/obj/main.o
+task4/solution/obj/MultiThreading.o
