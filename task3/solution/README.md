@@ -23,11 +23,11 @@
 
 ### GRAPH: 
 
-![Imaga small](/Pictures/small_file_size)
+![Imaga small](https://github.com/BatyaPng/3_sem_22_23/blob/main/task3/solution/Pictures/small_file_size.png?raw=true)
 <br/>
-![Image medium](https://github.com/shaazmik/3_sem_22_23/blob/main/task3/homework/img/medium.png?raw=true)
+![Image medium](https://github.com/BatyaPng/3_sem_22_23/blob/main/task3/solution/Pictures/medium_file_size.png?raw=true)
 <br/>
-![Image large](https://github.com/shaazmik/3_sem_22_23/blob/main/task3/homework/img/large.png?raw=true)
+![Image large](https://github.com/BatyaPng/3_sem_22_23/blob/main/task3/solution/Pictures/big_file_size.png?raw=true)
 
 
 ### CONCLUSION: 
