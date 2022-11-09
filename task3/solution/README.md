@@ -30,9 +30,8 @@
 ![Image large](https://github.com/BatyaPng/3_sem_22_23/blob/main/task3/solution/Pictures/big_file_size.png?raw=true)
 
 
-### CONCLUSION: 
+### CONCLUSION:
 
-The most effective in these tests was ___virtual-shared memory___, which allows you to immediately access data from another process,<br/>
-without the preliminary cost of reading.<br/>
-__Message queue__  is the most efficient for sending short messages.<br/>
-__FIFO__ stably keeps in the middle among all and the easiest method to implement.<br/>
+The fastest IPC turned out to be __shared memory__. But this is not surprising, since this IPC simply creates a common area in RAM without any add-ons of other IPCs.
+Next comes the __FIFO__ performance. It is also due to the simplicity of implementation.
+__MSQ__ turned out to be the slowest.
