@@ -27,6 +27,10 @@ bool IsUnder(const point p) {
 }
 
 void *CalcIntegrate(void *varss) {
+    srand(time(NULL));
+
+    fprintf(stderr, "I'm Here ))\n");
+
     data *vars = (data *) varss;
 
     interval range = vars->range;
@@ -34,6 +38,8 @@ void *CalcIntegrate(void *varss) {
 
     for (size_t i = numPoints; i > 0; i--) {
         point p = CreatePoint(range);
+        // printf("x = %lg, y = %lg\n", p.x, p.y);
+
         if (IsUnder(p) == true) {
             pthread_mutex_lock(&mutex);
             
@@ -43,5 +49,6 @@ void *CalcIntegrate(void *varss) {
         }        
     }
 
-    pthread_mutex_destroy(&mutex);
+    printf("numunder in thread %ld\n", numUnder);
+
 }

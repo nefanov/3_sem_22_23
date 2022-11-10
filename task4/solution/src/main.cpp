@@ -2,8 +2,14 @@
 #include "Integral.hpp"
 
 extern size_t numUnder;
+extern pthread_mutex_t mutex;
 
 int main(int argc, char **argv) {
+
+    pthread_mutex_init(&mutex, NULL);
+
+    int result = 0;
+
     assert(argc == 4);
 
     double leftBound = atof(argv[1]);
@@ -39,13 +45,21 @@ int main(int argc, char **argv) {
     pthread_t *threads = (pthread_t *) calloc(nThreads, sizeof(pthread_t));
     ASSERTED(calloc, threads, NULL, -1);
 
-    for (int i = 0; i < nThreads; i++) {
-        pthread_create(&threads[i], NULL, CalcIntegrate, data + i);
-    }
+    printf("SDASDAS\n");
 
     for (int i = 0; i < nThreads; i++) {
-        pthread_join(threads[i], NULL);
+        result  = pthread_create(&threads[i], NULL, CalcIntegrate, (void *) ((char *) data + i));
+        ASSERTED(pthread_create, result, -1, -1);
     }
+
+    printf("SDASDAS\n");
+
+    for (int i = 0; i < nThreads; i++) {
+        result = pthread_join(threads[i], NULL);
+        ASSERTED(pthread_join, result, -1, -1);
+    }
+
+    printf("SDASDAS\n");
 
     double square = (rightBound - leftBound) * (CalcFuncValue(rightBound) - CalcFuncValue(leftBound));
     double integrateVal = ((double) numUnder / (double) NUM_POINTS) * square;
@@ -54,5 +68,8 @@ int main(int argc, char **argv) {
 
     printf("Inegral x^2 from %lg to %lg is %lg\n", leftBound, rightBound, integrateVal);
 
+    pthread_mutex_destroy(&mutex);
+
+    free(threads);
     return 0;
 }

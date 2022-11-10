@@ -10,6 +10,7 @@ int CompDouble(const double a, const double b) {
 }
 
 double DRand(const double min, const double max) {
+
     double rndDouble = min + ((double) rand() / RAND_MAX) * (max - min);
 
     return rndDouble;
