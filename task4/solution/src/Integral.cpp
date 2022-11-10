@@ -7,15 +7,15 @@ double CalcFuncValue(const double x) {
     return x * x;
 }
 
-point CreatePoint(const interval range) {
+point CreatePoint(const interval range, unsigned int *seed) {
     double xMin = range.left;
     double xMax = range.right + EPS;
     double yMax = CalcFuncValue(range.right) + EPS;
 
     point p = {};
 
-    p.x = DRand(xMin, xMax);
-    p.y = DRand(0, yMax);
+    p.x = DRand(xMin, xMax, seed);
+    p.y = DRand(0, yMax, seed);
 
     return p;
 }
@@ -27,15 +27,15 @@ bool IsUnder(const point p) {
 }
 
 void *CalcIntegrate(void *varss) {
-    srand(time(NULL));
-
+    unsigned int seed = time(NULL) + pthread_self();
+    
     data *vars = (data *) varss;
 
     interval range = vars->range;
     int numPoints = vars->numPoints;
 
     for (int i = numPoints; i > 0; i--) {
-        point p = CreatePoint(range);
+        point p = CreatePoint(range, &seed);
 
         if (IsUnder(p) == true) {
             pthread_mutex_lock(&mutex);

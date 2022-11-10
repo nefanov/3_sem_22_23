@@ -9,8 +9,8 @@ int CompDouble(const double a, const double b) {
         return LESS;
 }
 
-double DRand(const double min, const double max) {
-    double rndDouble = min + ((double) rand() / RAND_MAX) * (max - min);
+double DRand(const double min, const double max, unsigned int *seed) {
+    double rndDouble = min + ((double) rand_r(seed) / RAND_MAX) * (max - min);
 
     return rndDouble;
 }

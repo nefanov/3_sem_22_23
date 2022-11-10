@@ -6,7 +6,7 @@
 #include <pthread.h>
 #include "CommonFunctions.hpp"
 
-const int NUM_POINTS = 1000000;
+const int NUM_POINTS = 100000000;
 
 struct interval {
     double left = 0.0;
@@ -23,7 +23,7 @@ struct data {
     interval range = {};
 };
 
-point CreatePoint(const interval range);
+point CreatePoint(const interval range, unsigned int *seed);
 
 bool IsUnder(const point p);
 

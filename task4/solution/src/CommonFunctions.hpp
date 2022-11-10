@@ -28,6 +28,6 @@ enum MLE {
 
 int CompDouble(const double a, const double b);
 
-double DRand(const double min, const double max);
+double DRand(const double min, const double max, unsigned int *seed);
 
 #endif
