@@ -1,5 +1,8 @@
 #include "Integral.hpp"
 
+size_t numUnder = 0;
+pthread_mutex_t mutex;
+
 double CalcFuncValue(const double x) {
     return x * x;
 }
@@ -23,17 +26,22 @@ bool IsUnder(const point p) {
     return false;
 }
 
-double CalcIntegrate(const interval range, const size_t numPoints) {
-    size_t numUnder = 0;
+void *CalcIntegrate(void *varss) {
+    data *vars = (data *) varss;
+
+    interval range = vars->range;
+    size_t numPoints = vars->numPoints;
 
     for (size_t i = numPoints; i > 0; i--) {
         point p = CreatePoint(range);
-        if (IsUnder(p) == true)
+        if (IsUnder(p) == true) {
+            pthread_mutex_lock(&mutex);
+            
             numUnder++;
+
+            pthread_mutex_unlock(&mutex);
+        }        
     }
 
-    double square = (range.right - range.left) * (CalcFuncValue(range.right) - CalcFuncValue(range.left));
-    double integrateVal = ((double) numUnder / (double) numPoints) * square;
-
-    return integrateVal;
+    pthread_mutex_destroy(&mutex);
 }

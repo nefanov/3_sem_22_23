@@ -3,6 +3,7 @@
 
 #include <stdlib.h>
 #include <time.h>
+#include <pthread.h>
 #include "CommonFunctions.hpp"
 
 const size_t NUM_POINTS = 1000000;
@@ -17,6 +18,11 @@ struct point {
     double y;
 };
 
+struct data {
+    interval range;
+    size_t numPoints; 
+};
+
 // struct rectangle {
 //     point leftPoint;
 //     point rightPoint;
@@ -28,6 +34,6 @@ bool IsUnder(const point p);
 
 double CalcFuncValue(const double x);
 
-double CalcIntegrate(const interval range, const size_t numPoints);
+void *CalcIntegrate(void *varss);
 
 #endif

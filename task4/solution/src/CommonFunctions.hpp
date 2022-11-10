@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include <math.h>
 #include <stdlib.h>
+#include <string.h>
 
 #define ASSERTED(func, var, cntrlValue, retValue)   \
     if (strcmp(#func, "NP") == 0) {                 \
