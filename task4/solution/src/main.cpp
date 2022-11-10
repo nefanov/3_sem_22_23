@@ -4,6 +4,7 @@
 extern size_t numUnder;
 extern pthread_mutex_t mutex;
 
+
 int main(int argc, char **argv) {
 
     pthread_mutex_init(&mutex, NULL);
@@ -45,31 +46,27 @@ int main(int argc, char **argv) {
     pthread_t *threads = (pthread_t *) calloc(nThreads, sizeof(pthread_t));
     ASSERTED(calloc, threads, NULL, -1);
 
-    printf("SDASDAS\n");
-
     for (int i = 0; i < nThreads; i++) {
-        result  = pthread_create(&threads[i], NULL, CalcIntegrate, (void *) ((char *) data + i));
+        result  = pthread_create(&threads[i], NULL, CalcIntegrate, (void *)(data + i * sizeof(struct data)));
         ASSERTED(pthread_create, result, -1, -1);
     }
-
-    printf("SDASDAS\n");
 
     for (int i = 0; i < nThreads; i++) {
         result = pthread_join(threads[i], NULL);
         ASSERTED(pthread_join, result, -1, -1);
     }
 
-    printf("SDASDAS\n");
 
     double square = (rightBound - leftBound) * (CalcFuncValue(rightBound) - CalcFuncValue(leftBound));
     double integrateVal = ((double) numUnder / (double) NUM_POINTS) * square;
-
-    printf("under points: %ld\n", numUnder);
 
     printf("Inegral x^2 from %lg to %lg is %lg\n", leftBound, rightBound, integrateVal);
 
     pthread_mutex_destroy(&mutex);
 
     free(threads);
+    free(ranges);
+    free(tmpData);
+
     return 0;
 }

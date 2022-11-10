@@ -20,3 +20,4 @@ task4/solution/obj/CommonFunctions.o
 task4/solution/obj/Integral.o
 task4/solution/obj/main.o
 task4/solution/obj/MultiThreading.o
+.vscode/tasks.json

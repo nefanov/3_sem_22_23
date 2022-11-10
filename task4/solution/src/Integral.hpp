@@ -6,27 +6,22 @@
 #include <pthread.h>
 #include "CommonFunctions.hpp"
 
-const size_t NUM_POINTS = 1000000;
+const int NUM_POINTS = 1000000;
 
 struct interval {
-    double left;
-    double right;
+    double left = 0.0;
+    double right = 0.0;
 };
 
 struct point {
-    double x;
-    double y;
+    double x = 0.0;
+    double y = 0.0;
 };
 
 struct data {
-    interval range;
-    size_t numPoints; 
+    int numPoints = 0; 
+    interval range = {};
 };
-
-// struct rectangle {
-//     point leftPoint;
-//     point rightPoint;
-// };
 
 point CreatePoint(const interval range);
 
