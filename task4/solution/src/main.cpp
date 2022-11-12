@@ -64,9 +64,9 @@ int main(int argc, char **argv) {
 
     pthread_mutex_destroy(&mutex);
 
-    free(threads);
-    free(ranges);
-    free(tmpData);
+    // free(threads);
+    // free(ranges);
+    // free(tmpData);
 
     return 0;
 }

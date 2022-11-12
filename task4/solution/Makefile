@@ -4,13 +4,9 @@ DEBUG = True
 TARGET = Integrator
 CC = g++
 
-ifdef DEBUG
-	CFLAGS = '-D _DEBUG -g -ggdb3 -Wall -Werror -Wpedantic -Wextra -fsanitize=undefined,address,alignment,bool,bounds,enum,float-cast-overflow,float-divide-by-zero \
-	integer-divide-by-zero,leak,nonnull-attribute,null,object-size,return,returns-nonnull-attribute,shift,signed-integer-overflow,\
-	undefined,unreachable,vla-bound,vptr'
-else 
-	CFLAGS = 
-endif
+CFLAGS = ' -g -ggdb3 -Wall -Werror -Wpedantic -Wextra -fsanitize=undefined,address,alignment,bool,bounds,enum,float-cast-overflow,float-divide-by-zero,\
+integer-divide-by-zero,leak,nonnull-attribute,null,object-size,return,returns-nonnull-attribute,shift,signed-integer-overflow,\
+undefined,unreachable,vla-bound,vptr'
 
 PREF_SRC = ./src/
 PREF_OBJ = ./obj/
@@ -22,7 +18,7 @@ $(TARGET) : $(OBJ)
 	$(CC) $(OBJ) -o $(TARGET) -lm -lpthread
 
 $(PREF_OBJ)%.o : $(PREF_SRC)%.cpp
-	$(CC) -c $< -o $@ 
+	$(CC) $(CFLAGS) -c $< -o $@ 
 
 clean : 
 	rm $(TARGET) $(PREF_OBJ)*.o 

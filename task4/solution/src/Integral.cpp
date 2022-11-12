@@ -45,4 +45,6 @@ void *CalcIntegrate(void *varss) {
             pthread_mutex_unlock(&mutex);
         }        
     }
+
+    return NULL;
 }
