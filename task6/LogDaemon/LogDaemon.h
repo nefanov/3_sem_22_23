@@ -3,6 +3,7 @@
 #include <logs.h>
 
 #define DAEMON_DIR "./daemon_closet"
+#define DIFF_DIR "./daemon_diff"
 #define CWD "cwd"
 #define PROC_DIR_PATH(pid) "/proc/" #pid
 

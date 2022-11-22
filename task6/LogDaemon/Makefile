@@ -24,3 +24,4 @@ valgrind:
 
 clean:
 	rm -rf *.o *.exe
+	rm -rf daemon_closet/

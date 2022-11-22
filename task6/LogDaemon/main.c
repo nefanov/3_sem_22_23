@@ -17,13 +17,25 @@
 // Create a dir for stroring file history
 int create_closet()
 {
+    mode_t old_umask = umask(0);
+
     int ret = mkdir(DAEMON_DIR, 0777);
 
     if (ret == ERROR && errno != EEXIST)
     {
-        LOG_ERROR("mkdir");
+        LOG_ERROR("mkdir closet");
         return ERROR;
     }
+
+    ret = mkdir(DIFF_DIR, 0777);
+
+    if (ret == ERROR && errno != EEXIST)
+    {
+        LOG_ERROR("mkdir diffs");
+        return ERROR;
+    }
+
+    umask(old_umask);
 }
 
 // Get work dir path
@@ -37,6 +49,15 @@ int get_work_dir(pid_t pid, char* work_dir)
           readlink(proc_dir_path, work_dir, PATH_MAX)
          );
     log("Proc work dir: %s\n", work_dir);
+}
+
+#define CMD_LEN 255
+void create_diff (const char* dir, const char* backup)
+{
+    static int patch_id = 0;
+    char cmd[CMD_LEN] = {};
+    sprintf(cmd, "diff -bur %s %s > " DIFF_DIR "/%d.txt", backup, dir, patch_id++);
+    system(cmd);
 }
 
 int main(int argc, const char* argv[])
@@ -64,6 +85,7 @@ int main(int argc, const char* argv[])
     {
         /* Read events forever */
         int numRead = read(inotify_fd, buf, BUF_SIZE);
+        create_diff(work_dir, DAEMON_DIR);
 
         if (numRead == 0)
             log("read() from inotify fd returned 0!");
