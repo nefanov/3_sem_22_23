@@ -108,7 +108,7 @@ int get_shmid()
 	key_t key;
 	int shmid;
 
-	if ((key = ftok("KV_storage.c", 0)) < 0)
+	if ((key = ftok("KV_storage.h", 0)) < 0)
 	{
 		perror("ftok");
 		_exit(-1);
