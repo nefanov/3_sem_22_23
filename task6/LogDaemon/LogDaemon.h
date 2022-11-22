@@ -6,4 +6,5 @@
 #define CWD "cwd"
 #define PROC_DIR_PATH(pid) "/proc/" #pid
 
-#define PATH_MAX 100 // use lstat
+int cp(const char *to, const char *from);
+int save_dir_content (const char *dirpath);

@@ -1,4 +1,4 @@
-SRC		= main.c log.c
+SRC		= main.c log.c cp.c save_dir_content.c
 EXEC 	= LogDaemon.exe
 LIBS 	= 
 OBJ		= $(SRC:.c=.o)
