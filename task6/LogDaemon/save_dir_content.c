@@ -17,9 +17,6 @@ int save_dir_content (const char *dirpath)
     *src_dir_end++ = '/';
     *src_dir_end = '\0';
 
-    puts(dest_path);
-    puts(src_path);
-
     DIR *dirp;
     struct dirent *dp;
 
@@ -38,17 +35,12 @@ int save_dir_content (const char *dirpath)
         if (dp == NULL)
             break;
 
-        puts(dp->d_name);
-
         if (dp->d_type != DT_REG)
             continue;
         
         strcat(dest_path, dp->d_name);
         strcat(src_path, dp->d_name);
         cp(dest_path, src_path);
-
-        puts(dest_path);
-        puts(src_path);
 
         // Cut off names from full path
         *dest_dir_end = '\0';

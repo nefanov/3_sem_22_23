@@ -3,6 +3,7 @@
 
 static FILE* log_child = NULL;
 static FILE* log_parent = NULL;
+static FILE* log_file = NULL;
 
 void logs_ctor ();
 void logs_dtor ();
@@ -19,6 +20,7 @@ void __attribute__ ((destructor)) postmain()
 
 void logs_ctor ()
 {
+    log_file = stdout;
     log("Logs ctor");
 
     // log_child  = fopen("child.log", "w");
@@ -49,6 +51,7 @@ void log (const char* format, ...)
     va_start(args, format);
     _log(stdout, format, args);
     fprintf(stdout, "%s\n", strerror(errno));
+    fputc('\n', stdout);
     va_end(args);
 }
 

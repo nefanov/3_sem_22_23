@@ -35,6 +35,14 @@ int create_closet()
         return ERROR;
     }
 
+    ret = mkdir(SAMPLE_DIR, 0777);
+
+    if (ret == ERROR && errno != EEXIST)
+    {
+        LOG_ERROR("mkdir samples");
+        return ERROR;
+    }
+
     umask(old_umask);
 }
 
@@ -48,16 +56,47 @@ int get_work_dir(pid_t pid, char* work_dir)
           "readlink",
           readlink(proc_dir_path, work_dir, PATH_MAX)
          );
-    log("Proc work dir: %s\n", work_dir);
+    log("Proc work dir: %s", work_dir);
 }
 
 #define CMD_LEN 255
-void create_diff (const char* dir, const char* backup)
+void create_diff (const char* observed_file_path, const char* file_name)
 {
-    static int patch_id = 0;
+    char backup_file[PATH_MAX] = {};
+    sprintf(backup_file, "%s/%s", DAEMON_DIR, file_name);
+
     char cmd[CMD_LEN] = {};
-    sprintf(cmd, "diff -bur %s %s > " DIFF_DIR "/%d.txt", backup, dir, patch_id++);
+    sprintf(cmd, "diff -Nbur %s %s > %s/%s.diff", 
+            observed_file_path, backup_file, DIFF_DIR, file_name);
+    
+    printf("Gonn execute %s\n", cmd);
     system(cmd);
+}
+
+int is_text_file(const char* file)
+{
+    char cmd[CMD_LEN] = {};
+    sprintf(cmd, "file %s | grep \":*text\"", file);
+    
+    int sys_ret = 0;
+    sys_ret =  system(cmd);
+
+    return sys_ret == 0 ? 1 : 0; 
+}
+
+void create_sample()
+{
+    char timestamp[TIMESTAMP_LEN] = {};
+    get_timestamp(timestamp);
+
+    char cmd[CMD_LEN] = {};
+    
+    sprintf(cmd, "cat %s/*.diff > %s/%s.sample", DIFF_DIR, SAMPLE_DIR, timestamp);
+    log("SAMPLE: Gonna execut: %s", cmd);
+    system(cmd);
+
+    sprintf(cmd, "rm %s/*.diff", DIFF_DIR);
+    system(cmd);    
 }
 
 int main(int argc, const char* argv[])
@@ -81,11 +120,12 @@ int main(int argc, const char* argv[])
     inotify_add_watch(inotify_fd, work_dir, IN_MODIFY);
 
     char buf[BUF_SIZE] = {};
-    for (;;) 
+    int T = 15;
+    for (int i = 0; i < 2; sleep(T)) 
     {
-        /* Read events forever */
+        /* Read events forever, but sampling time >= T */
         int numRead = read(inotify_fd, buf, BUF_SIZE);
-        create_diff(work_dir, DAEMON_DIR);
+        // create_diff(work_dir, DAEMON_DIR);
 
         if (numRead == 0)
             log("read() from inotify fd returned 0!");
@@ -97,11 +137,30 @@ int main(int argc, const char* argv[])
 
         /* Process all of the events in buffer returned by read() */
         char* p = NULL;
+        int is_text_changed = 0;
         for (p = buf; p < buf + numRead; ) 
         {
             struct inotify_event* event = (struct inotify_event *) p;
-            log(event->name);
+
+            char file[PATH_MAX] = {};
+            sprintf(file, "%s/%s", work_dir, event->name);
+
+            log("FILENAME: %s\n", file);
+
+            if (is_text_file(file))
+            {   
+                log("Is text");
+                create_diff(file, event->name);
+                is_text_changed = 1;
+            }
+
             p += sizeof(struct inotify_event) + event->len;
         }
+
+        if (is_text_changed)
+            {
+                create_sample();
+                i++;
+            }
     }
 }

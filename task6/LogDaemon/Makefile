@@ -1,4 +1,4 @@
-SRC		= main.c log.c cp.c save_dir_content.c
+SRC		= main.c log.c cp.c save_dir_content.c timestamp.c
 EXEC 	= LogDaemon.exe
 LIBS 	= 
 OBJ		= $(SRC:.c=.o)
@@ -24,4 +24,4 @@ valgrind:
 
 clean:
 	rm -rf *.o *.exe
-	rm -rf daemon_closet/
+	rm -rf daemon_closet/ daemon_diff/ daemon_sample/
