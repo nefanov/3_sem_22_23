@@ -180,6 +180,6 @@ int main(int argc, const char* argv[])
     {
         log("Try to get sample %d", i);
         poll_sample(inotify_fd, work_dir);
-        system("bash get_last_samples.sh 1");
+        system("bash get_last_samples.sh -k1");
     }
 }
