@@ -49,15 +49,15 @@ void log (const char* format, ...)
 {
     va_list args;
     va_start(args, format);
-    _log(stdout, format, args);
-    fprintf(stdout, "%s\n", strerror(errno));
-    fputc('\n', stdout);
+    fprintf(log_file, "[LOG]: ");
+    _log(log_file, format, args);
+    fprintf(log_file, "[ERRNO] %s\n", strerror(errno));
+    fputc('\n', log_file);
     va_end(args);
 }
 
 void logc (const char* format, ...)
 {
-
     va_list args;
     va_start(args, format);
     _log(log_child, format, args);

@@ -23,5 +23,5 @@ valgrind:
 	valgrind --leak-check=full --show-leak-kinds=all -s ./$(EXEC) 
 
 clean:
-	rm -rf *.o *.exe
+	rm -rf *.o *.rej *.exe
 	rm -rf daemon_closet/ daemon_diff/ daemon_sample/
