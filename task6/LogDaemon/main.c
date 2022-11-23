@@ -3,6 +3,9 @@
 
 int main(int argc, const char* argv[])
 {
+    skeleton_daemon();
+    logs_ctor();
+    log("meow");
     // Get pid from cmd
     pid_t pid = 0;
     pid = argc > 1 ? atoi(argv[1]) : 1;
@@ -25,10 +28,13 @@ int main(int argc, const char* argv[])
     inotify_add_watch(inotify_fd, work_dir, IN_MODIFY);
 
     int T = 5;
-    for (int i = 0; i < 5; i++, sleep(T)) 
+    for (int i = 0;; i++, sleep(T)) 
     {
         log("Try to get sample %d", i);
         poll_sample(inotify_fd, work_dir);
         system("bash get_last_samples.sh -k1");
     }
+    logs_dtor();
+
+    return EXIT_SUCCESS;
 }

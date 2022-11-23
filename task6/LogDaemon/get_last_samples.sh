@@ -11,8 +11,7 @@ do
 done
 
 for sample_name in `ls ./daemon_sample | sort -r -d | head -$sample_deep`
-do 
-    echo "$sample_name"
-    patch -N $patch_reverse -d ./daemon_closet < ./daemon_sample/$sample_name
+do
+    patch -s -N $patch_reverse -d ./daemon_closet < ./daemon_sample/$sample_name > /dev/null
 done
 

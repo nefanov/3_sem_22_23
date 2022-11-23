@@ -8,19 +8,19 @@ static FILE* log_file = NULL;
 void logs_ctor ();
 void logs_dtor ();
 
-void __attribute__ ((constructor)) premain()
-{
-    logs_ctor();
-}
+// void __attribute__ ((constructor)) premain()
+// {
+//     logs_ctor();
+// }
 
-void __attribute__ ((destructor)) postmain()
-{
-    logs_dtor();
-}
+// void __attribute__ ((destructor)) postmain()
+// {
+//     logs_dtor();
+// }
 
 void logs_ctor ()
 {
-    log_file = stdout;
+    log_file = fopen("LogDaemon.txt", "w");
     log("Logs ctor");
 
     // log_child  = fopen("child.log", "w");
@@ -30,6 +30,7 @@ void logs_ctor ()
 void logs_dtor ()
 {
     log("Logs dtor");
+    fclose(log_file);
 
     // fclose(log_child);
     // log_child = NULL;
@@ -53,6 +54,7 @@ void log (const char* format, ...)
     _log(log_file, format, args);
     fprintf(log_file, "[ERRNO] %s\n", strerror(errno));
     fputc('\n', log_file);
+    fflush(log_file);
     va_end(args);
 }
 

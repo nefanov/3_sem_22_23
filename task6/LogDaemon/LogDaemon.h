@@ -32,3 +32,6 @@ int poll_sample(int inotify_fd, const char* work_dir);
 // Dir funcs
 int create_closets();
 int get_work_dir(pid_t pid, char* work_dir);
+
+// Daemon
+void skeleton_daemon();

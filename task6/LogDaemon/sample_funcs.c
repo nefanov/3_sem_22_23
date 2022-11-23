@@ -13,14 +13,13 @@ void create_diff (const char* observed_file_path, const char* file_name)
     sprintf(cmd, "diff -Nbur %s %s > %s/%s.diff", 
             backup_file, observed_file_path, DIFF_DIR, file_name);
     
-    printf("Gonn execute %s\n", cmd);
     system(cmd);
 }
 
 int is_text_file(const char* file)
 {
     char cmd[CMD_LEN] = {};
-    sprintf(cmd, "file %s | grep \":*text\"", file);
+    sprintf(cmd, "file %s | grep \":*text\" > /dev/null", file);
     
     int sys_ret = 0;
     sys_ret =  system(cmd);
