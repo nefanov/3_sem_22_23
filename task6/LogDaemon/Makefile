@@ -1,4 +1,4 @@
-SRC		= main.c log.c cp.c save_dir_content.c timestamp.c
+SRC		= $(shell find $(SOURCEDIR) -name '*.c')
 EXEC 	= LogDaemon.exe
 LIBS 	= 
 OBJ		= $(SRC:.c=.o)
