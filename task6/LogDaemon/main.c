@@ -6,9 +6,16 @@ int main(int argc, const char* argv[])
     skeleton_daemon();
     logs_ctor();
     log("meow");
+    log("my pid is %d", getpid());
     // Get pid from cmd
     pid_t pid = 0;
     pid = argc > 1 ? atoi(argv[1]) : 1;
+
+    if (pid == 1)
+    {
+        log("Please enter pid in command line");
+        exit(EXIT_SUCCESS);
+    }
 
     CATCH("create_closets", create_closets());
 

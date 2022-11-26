@@ -1,4 +1,3 @@
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -22,8 +21,10 @@ void skeleton_daemon()
     
      /* Success: Let the parent terminate */
     if (pid > 0)
+    {
         exit(EXIT_SUCCESS);
-    
+    }
+
     /* On success: The child process becomes session leader */
     if (setsid() < 0)
         exit(EXIT_FAILURE);
@@ -41,15 +42,29 @@ void skeleton_daemon()
         exit(EXIT_SUCCESS);
 }
 
+void log_signal(int signal)
+{
+    log("Caught signal %s (%d)", strsignal(signal), signal);
+}
+
+#define SAFE_SIG(...)                       \
+    do                                      \
+    {                                       \
+        int ret = __VA_ARGS__;              \
+        if (errno == EINVAL)                \
+            LOG_ERROR("cant set signal");   \
+    } while (0);
+
 void register_signals()
 {
-    /* Ignore all signals */
-    signal(SIGINT, SIG_IGN);
-    signal(SIGQUIT, SIG_IGN);
-    signal(SIGABRT, SIG_IGN);
-    signal(SIGTRAP, SIG_IGN);
-    signal(SIGKILL, SIG_IGN);
-    signal(SIGTERM, SIG_IGN);
-    signal(SIGCONT, SIG_IGN);
-    signal(SIGTSTP, SIG_IGN);
+    /* Log signals */
+    SAFE_SIG(signal(SIGINT,  log_signal));
+    SAFE_SIG(signal(SIGQUIT, log_signal));
+    SAFE_SIG(signal(SIGABRT, log_signal));
+    SAFE_SIG(signal(SIGTRAP, log_signal));
+    SAFE_SIG(signal(SIGTERM, log_signal));
+    SAFE_SIG(signal(SIGCONT, log_signal));
+    SAFE_SIG(signal(SIGTSTP, log_signal));
 }
+
+#undef SAFE_SIG
