@@ -26,20 +26,21 @@ Program saves
 
 ### Version 0.4
 
-* Create IPC(FIFO?) to talk with daemon
+* Create named FIFO to talk with daemon
 * Add API:
 	* set T
 	* set PID
 	* exit
 	* print current diff
+	* restore condition by patching diffs
 
-to be continued
+### Version 0.5
+* Provide only one daemon existence
 
 ### Features
-
 * print last K diffs
 * change observable process (PID)
-* restore condition by patching diffs
+
 
 ### Version X
 
