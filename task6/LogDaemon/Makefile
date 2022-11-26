@@ -25,3 +25,4 @@ valgrind:
 clean:
 	rm -rf *.o *.rej *.exe
 	rm -rf daemon_closet/ daemon_diff/ daemon_sample/
+	rm LogDaemon.txt

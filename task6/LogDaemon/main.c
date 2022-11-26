@@ -3,19 +3,18 @@
 
 int main(int argc, const char* argv[])
 {
-    skeleton_daemon();
+    pid_t pid = 0;
+    enum MODE mode = INTERACT;
+    mode = proc_cmd(argc, argv, &pid);
+
+    if (mode == DAEMON)
+        skeleton_daemon();
+    else 
+        printf("[NOTE] Make sure that you start programm with 'sudo'\n");
+
     logs_ctor();
     log("meow");
     log("my pid is %d", getpid());
-    // Get pid from cmd
-    pid_t pid = 0;
-    pid = argc > 1 ? atoi(argv[1]) : 1;
-
-    if (pid == 1)
-    {
-        log("Please enter pid in command line");
-        exit(EXIT_SUCCESS);
-    }
 
     CATCH("create_closets", create_closets());
 

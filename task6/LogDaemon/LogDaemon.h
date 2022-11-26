@@ -29,9 +29,19 @@ void get_timestamp (char* timestamp);
 // Sample funcs
 int poll_sample(int inotify_fd, const char* work_dir);
 
-// Dir funcs
+// Directory funcs
 int create_closets();
 int get_work_dir(pid_t pid, char* work_dir);
 
-// Daemon
+// Modes
+
+enum MODE 
+{
+    INTERACT,
+    DAEMON
+};
+
+enum MODE proc_cmd(int argc, const char* argv[], pid_t* pid_ptr);
 void skeleton_daemon();
+
+#define EQUAL 0
