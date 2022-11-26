@@ -10,6 +10,7 @@
 
 #include <logs.h>
 
+#define FIFO_NAME "/tmp/LogDaemon.FIFO"
 #define DAEMON_DIR "./daemon_closet"
 #define DIFF_DIR "./daemon_diff"
 #define SAMPLE_DIR "./daemon_sample"
@@ -44,4 +45,18 @@ enum MODE
 enum MODE proc_cmd(int argc, const char* argv[], pid_t* pid_ptr);
 void skeleton_daemon();
 
+// for str comparison
 #define EQUAL 0
+#define STR_EQUAL(str1, str2) (strcmp(str1, str2) == EQUAL)
+
+enum API
+{
+    SET_T, // "set_t T #"
+    SET_PID, // "set_pid pid"
+    STOP, // "exit"
+    PRINT_K, // "print k"
+    RESTORE_K, // "restore k"
+    WRONG_CMD,
+    NO_CMD
+};
+#define API_CMD_SIZE 50
