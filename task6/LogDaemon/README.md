@@ -35,13 +35,13 @@ It's name is set in [LogDaemon.h](LogDaemon.h). By default it is *"/tmp/LogDaemo
 Daemon has an API:
 
 ```
-- set_T \<time in secs\> // set polling time
+- set_T <time in secs> // set polling time
 
-- print_k \<k\> // print in DAEMON_TERMINAL k last diffs
+- print_k <k> // print in DAEMON_TERMINAL k last diffs
 
                 // by default print to ./info/LogDaemon_terminal.txt
 
-- restore_k \<k\> // restores files k diffs back
+- restore_k <k> // restores files k diffs back
 
 - stop // stops daemon
 ```
