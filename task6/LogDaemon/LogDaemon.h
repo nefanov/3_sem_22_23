@@ -10,7 +10,9 @@
 
 #include <logs.h>
 
-#define FIFO_NAME "/tmp/LogDaemon.FIFO"
+#define INFO_DIR "./info"
+#define DAEMON_TERMINAL INFO_DIR "/LogDaemon_terminal.txt"
+#define FIFO_NAME "/tmp/LogDaemon.fifo"
 #define DAEMON_DIR "./daemon_closet"
 #define DIFF_DIR "./daemon_diff"
 #define SAMPLE_DIR "./daemon_sample"
@@ -31,6 +33,7 @@ void get_timestamp (char* timestamp);
 int poll_sample(int inotify_fd, const char* work_dir);
 
 // Directory funcs
+int create_dir(const char* dir_name);
 int create_closets();
 int get_work_dir(pid_t pid, char* work_dir);
 
@@ -60,3 +63,7 @@ enum API
     NO_CMD
 };
 #define API_CMD_SIZE 50
+
+// Work with FIFO
+int create_fifo();
+enum API read_fifo (int fifo_fd, int* arg);

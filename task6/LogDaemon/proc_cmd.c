@@ -1,5 +1,15 @@
 #include <LogDaemon.h>
 
+static void show_help()
+{
+    printf("Wrong cmd args format!\n"
+        "Hint:\n"
+        "$ ./LogDaemon <mode> <pid>\n"
+        "where <mode>:\n"
+        "\t-i: interactive\n"
+        "\t-d: daemon \n");
+}
+
 enum MODE proc_cmd(int argc, const char* argv[], pid_t* pid_ptr)
 {
     int mode = INTERACT;
@@ -18,13 +28,7 @@ enum MODE proc_cmd(int argc, const char* argv[], pid_t* pid_ptr)
             }
             else
             {
-                printf("Wrong cmd args format!\n"
-                    "Hint:\n"
-                    "$ ./LogDaemon <mode> <pid>\n"
-                    "where <mode>:\n"
-                    "\t-i: interactive\n"
-                    "\t-d: daemon \n");
-
+                show_help();
                 exit(EXIT_FAILURE);
             }
 
@@ -42,11 +46,13 @@ enum MODE proc_cmd(int argc, const char* argv[], pid_t* pid_ptr)
             if (errno != 0)
                 {
                     printf("[ERROR] Bad pid %s\n", argv[1]);
+                    show_help();
                 }
             return mode;
 
         case 1:
             printf("[ERROR] Please specify pid and mode\n");
+            show_help();
             exit(EXIT_FAILURE);
     }
 }

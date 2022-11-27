@@ -1,4 +1,5 @@
 #include <logs.h>
+#include <LogDaemon.h>
 #include <stdarg.h>
 
 static FILE* log_child = NULL;
@@ -20,7 +21,7 @@ void logs_dtor ();
 
 void logs_ctor ()
 {
-    log_file = fopen("LogDaemon.txt", "w");
+    log_file = fopen(INFO_DIR "/LogDaemon.txt", "w");
     log("Logs ctor");
 
     // log_child  = fopen("child.log", "w");

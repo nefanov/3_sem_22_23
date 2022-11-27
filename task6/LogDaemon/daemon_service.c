@@ -22,14 +22,14 @@ void skeleton_daemon()
      /* Success: Let the parent terminate */
     if (pid > 0)
     {
+        logs_dtor();
         exit(EXIT_SUCCESS);
     }
 
     /* On success: The child process becomes session leader */
     if (setsid() < 0)
         exit(EXIT_FAILURE);
-    
-   register_signals();
+
     /* Fork off for the second time*/
     pid = fork();
     
@@ -39,7 +39,10 @@ void skeleton_daemon()
     
     /* Success: Let the parent terminate */
     if (pid > 0)
+    {
+        logs_dtor();
         exit(EXIT_SUCCESS);
+    }
 }
 
 void log_signal(int signal)
