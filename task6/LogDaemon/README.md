@@ -1,5 +1,20 @@
 # Diff Daemon
 
+- [Diff Daemon](#diff-daemon)
+	- [Description](#description)
+			- [What is it?](#what-is-it)
+			- [What does it do?](#what-does-it-do)
+			- [How to interact with daemon?](#how-to-interact-with-daemon)
+			- [Build](#build)
+	- [Roadmap](#roadmap)
+			- [Version 0.0](#version-00)
+			- [Version 0.1](#version-01)
+			- [Version 0.2](#version-02)
+			- [Version 0.3](#version-03)
+			- [Version 0.4 \[@ currently here\]](#version-04--currently-here)
+			- [Version 0.5](#version-05)
+			- [Features](#features)
+
 ## Description
 
 #### What is it?
@@ -8,8 +23,8 @@
 #### What does it do?
 * Track CWD (work dir) changes of set process.
 * Save incremental diffs of changed text (once in T sec).
-* Execute you commands (check [Daemon API](#how-to-interact-with-daemon))
-* Ignores signals (SIGINT, SIGQUIT...)
+* Execute commands (check [Daemon API](#how-to-interact-with-daemon))
+* Ignore signals (SIGINT, SIGQUIT...)
 
 
 #### How to interact with daemon?
@@ -19,15 +34,17 @@ It's name is set in [LogDaemon.h](LogDaemon.h). By default it is *"/tmp/LogDaemo
 
 Daemon has an API:
 
+```
 - set_T \<time in secs\> // set polling time
 
-- print_k \<k\> // prints in DAEMON_TERMINAL k last diffs
+- print_k \<k\> // print in DAEMON_TERMINAL k last diffs
 
-*By default DEAMON_TERMINAL = ./info/LogDaemon_terminal.txt*
+                // by default print to ./info/LogDaemon_terminal.txt
 
 - restore_k \<k\> // restores files k diffs back
 
 - stop // stops daemon
+```
 
 To interact you should write command to FIFO. For example:
 
@@ -40,7 +57,6 @@ $ echo "set_T 10" > /tmp/LogDaemon.fifo
 
 Build it:
 ```
-
 $ cd LogDaemon && make
 ```
 
