@@ -15,7 +15,7 @@ void print_instruction(const char* cmd)
 int start_log() 
 {
     // Open log file, if -d option
-    const char log_path[] = "../log/log.txt";
+    const char log_path[] = "./src/log.txt";
     log_fd = open(log_path, O_CREAT | O_RDWR | O_APPEND, S_IRUSR | S_IWUSR);
     if (log_fd == -1) 
     {
