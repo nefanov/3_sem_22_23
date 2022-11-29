@@ -131,6 +131,7 @@ int main(int argc, char *argv[])
             alarm(1);
 
             // Побитовые операции
+            //printf("Char sent: %c \n", c);
             for ( i = 128; i >= 1; i /= 2)
             {
                 if ( i & c )              // 1
@@ -142,8 +143,6 @@ int main(int argc, char *argv[])
                 // приостанавливает процесс до получения сигнала
                 sigsuspend(&set);
             }
-
-            //fprintf(stdout, "message was written, message is :\"%s\"\n", (char*)(ptr + size));
             size += strlen( (char*)(ptr + size));
         }
         // ввод кончился
@@ -159,11 +158,12 @@ int main(int argc, char *argv[])
             write(fileno(fout), &out_char, 1);
             fflush(fout);
             counter=128;
+            //printf("Char received: %c \n", out_char);
             out_char = 0;
         }
-        
         sigsuspend(&set); // Ждём сигнал от ребёнка
     } while (1);
+
 
     shm_unlink( NAME );
     munmap( ptr, SIZE );
