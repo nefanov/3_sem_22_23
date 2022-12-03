@@ -2,6 +2,7 @@
 
 #define $ fprintf(stderr, "HERE %d\n", __LINE__); 
 
+#include <malloc.h>
 
 extern int P;
 

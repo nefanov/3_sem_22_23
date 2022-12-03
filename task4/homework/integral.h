@@ -7,7 +7,7 @@
 #include <pthread.h>
 
 
-#define PTHREAD_SQRT 2
+#define PTHREAD_SQRT 4
 #define NPOINTS 100000000
 #define YMAX 8886110
 #define XMAX 4
