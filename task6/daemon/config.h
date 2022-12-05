@@ -17,14 +17,46 @@
 #define DAEMON_PATH "~/backup/"
 #define MAX_LINE 1024
 #define MAX_DIFF 6
+#define DEFAULT_T 2 
 #define get_dir(pid) char src_path[MAX_LINE] = {};\
     sprintf( src_path, "/proc/%d/cwd/", pid );
 
+#define FIFO "lucifer.fifo"
+
+enum CMD {
+
+    stop     = 0,
+    show     = 1,
+    time_set = 2,
+
+};
+
+int DO_WORK = 1;
 int cmd_flag = 0;
 
-void work_handler( int signo ) {
+void stop_handler( int signo ) {
+
+    DO_WORK = 0;
+    return;
+}
+
+void cmd_handler( int signo ) {
 
     cmd_flag = 1;
+    return;
+
+}
+
+void set_signals( void (*handler)(int) ){
+
+    signal(SIGINT,  handler);
+    signal(SIGQUIT,  handler);
+    signal(SIGABRT,  handler);
+    signal(SIGTRAP,  handler);
+    signal(SIGTERM,  handler);
+    signal(SIGCONT,  handler);
+    signal(SIGTSTP,  handler);
+
     return;
 
 }
@@ -115,7 +147,7 @@ int back_up ( const int pid ,const char* res_path ) {
         res_file[res_len] = '\0';
     
     }
-
+    closedir( dir );
     return 0;
 
 }
@@ -149,7 +181,7 @@ int set_watch( int fd, int pid ) {
     return watch_d;
 }
 
-int monitor( int fd, int watch_d, int pid, int *diff ) {
+int monitor( int fd, int pid, int *diff ) {
 
     get_dir( pid )
     int i = 0 , sz, path_size = 0, src_size = 0;
@@ -210,5 +242,27 @@ int monitor( int fd, int watch_d, int pid, int *diff ) {
 
 }
 
+int fifo_ctor( );
+
+int print_diff( int diff, int k) {
+
+    if ( diff > k ){
+        return -1;
+    }
+    char cmd[MAX_LINE] = {};
+    sprintf( cmd, "./diff_print %d", diff);
+    printf( "%s\n", cmd );
+    system(cmd);
+    return 0;
+}
+
+int func_verify( char* cmd ) {
+
+    if ( !strcmp( cmd, "print" ) ) return show;
+    if ( !strcmp( cmd, "set_t" ) ) return time_set;
+    if ( !strcmp( cmd, "stop" ) ) return stop;
+    return -1; 
+
+}
 
 #endif

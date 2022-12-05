@@ -20,31 +20,83 @@ int main( int argc, char* argv[] ) {
         }
         printf("daemon pid is %d\n", getpid());
         pid_t proc = 0;
-        
+        if ( argc < 2 ) {
+            printf( "pid wasn't inputed!\n");
+            return -1;
+        }
         proc = atoi(argv[1]);
-        printf("proc pid is %d\n", proc);
-        //while ( !scanf( "%d", &proc ) );
-        close(1);
         close(0);
-        close(2);
         umask(0);
-        chdir("/");
+        set_signals( SIG_IGN );
+        signal( SIGUSR1, stop_handler );
         if ( back_up( proc, DAEMON_PATH ) == -1 ){
             return -1;
         }
 
         int fd = inotify_ctor( proc );
         int watch_d = set_watch( fd, proc );
-        int count = 0, diff = 0;
-        while ( 1 ){ 
+        int diff = 0, t = DEFAULT_T;
+        if ( argc == 2 || (argc > 2 && !strcmp(argv[2], "-i")) ) {
 
-            if ( count % 150 == 0 ) {
-                monitor( fd, watch_d, proc, &diff);
-                count = 0;
+            int code = 0, k = 0;
+            mknod( FIFO, S_IFIFO | 0666, 0 );
+            int fd_r = open( FIFO, O_RDONLY );
+            if ( fd_r < 0 ){
+                printf( "error while creating named pipe\n");
+                DO_WORK = 0;
+            }
+            signal( SIGUSR2, cmd_handler );
+            
+            while ( DO_WORK ){
+
+                if( cmd_flag ){
+                    read( fd_r, &code, sizeof(int) );
+                    switch( code ) {
+
+                        case time_set: 
+                            read( fd_r, &t, sizeof(int) );
+                            break;
+                        case show:
+                            read( fd_r, &k, sizeof(int) );
+                            print_diff( k, diff );
+                            break;
+                        default:
+                            break;
+                    }
+                }
+                sleep(t);
+                monitor( fd, proc, &diff);
+                
             }
 
-            count++;
+            if ( close(fd_r) ){
 
+                return -1;
+            }
+
+            system( "rm lucifer.fifo");
+
+        } else if ( argc >= 3 && !strcmp(argv[2], "-d") ){
+            
+            close(1);
+            close(2);
+            chdir("/");
+            while ( DO_WORK ){ 
+                
+                sleep( t );
+                monitor( fd, proc, &diff);
+
+            }
+
+        }
+
+        if (inotify_rm_watch(fd, watch_d)) {
+
+            return -1;
+        }
+        if (close(fd)) {
+
+            return -1;
         }
 
     }
