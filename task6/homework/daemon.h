@@ -23,6 +23,7 @@ int   saveDirData(const char* curDir);
 int cp(const char *to, const char *from);
 int createDir(const char* dir_name);
 
+void createDaemon();
 
 void registerSignals();
 FILE* prepareInterface();

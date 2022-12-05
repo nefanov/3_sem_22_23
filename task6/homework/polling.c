@@ -92,12 +92,10 @@ void create_sample()
 
 void getTimestamp(char* timestamp)
 {
-  time_t rawtime;
-  struct tm * timeinfo;
-
-  time(&rawtime);
-  timeinfo = localtime(&rawtime);
-  sprintf (timestamp,"%s", asctime(timeinfo));
+  static int timetmp = 0;
+  
+  sprintf (timestamp,"%d", timetmp);
+  timetmp++;
 
   for (; *timestamp; timestamp++)
     if (*timestamp == ' ' || *timestamp == '\n') *timestamp = '_';

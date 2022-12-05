@@ -4,16 +4,18 @@
 
 int main(int argc, char* argv[])
 {
+    system("make clean");
     startLogging();
     pid_t pid  = 0;
 
     FILE* cmdFile = prepareInterface();
     int mod = getCMDargs(argc, argv, &pid);
 
-    fprintf(stdout, "Daemon pid: %d\n", getpid());
+    fprintf(stdout, "DaemonLog pid: %d\n", getpid());
 
     if (mod == DAEMON)
     {
+        createDaemon();
     }
     
     char workDir[PATH_MAX_SIZE] = {};
@@ -51,29 +53,27 @@ int main(int argc, char* argv[])
         switch (cmd)
         {
             case KILL_DAEMON:
-                LOG("KILL DAEMON");
-                DAEMON_HP = 0;
+                    LOG("KILL DAEMON");
+                    DAEMON_HP = 0;
                 break;
             
             case PERIOD:
-                   logVar("Set period:from %d to %d\n", T, arg);
-                   T = arg;
+                    logVar("Set period:from %d to %d\n", T, arg);
+                    T = arg;
                    break;
 
             case PRINTLOGS:
-                   logVar("Count of last logs: %d\n", arg);
-                   sprintf(cmd_buffer, "bash bashDiff.sh %d %s", arg, DAEMON_CMD);
-                   system(cmd_buffer);
+                    logVar("Count of last logs: %d\n", arg);
+                    sprintf(cmd_buffer, "bash bashDiff.sh %d %s", arg, DAEMON_CMD);
+                    system(cmd_buffer);
                 break;
 
             case ERROR:
-                fprintf(stderr, "ERROR CHECK LOGS\n");
-                LOG("ERROR");
+                    LOG("ERROR");
                 break;
 
             case NO_CMD:
-                fprintf(stderr,"NO CMD\n");
-                LOG("NO CMD\n");
+                    LOG("NO CMD\n");
                 break;
         }
 

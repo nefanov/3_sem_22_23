@@ -15,7 +15,7 @@ void startLogging()
 
 void showExample()
 {
-    fprintf(stdout, "Program example:\n"
+    fprintf(stderr, "Program example:\n"
                     "MODS: -b [BASH MOD], -d [DAEMON MOD]\n"
                     "\'name.out -b 5\'\n"
                     "BASH MOD WITH PID = 5\n"
