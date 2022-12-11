@@ -12,6 +12,7 @@
 #include <poll.h>
 #include <time.h>
 #include <errno.h>
+#include "../include/query.hpp"
 
 
 const char *GLOBAL_BROADCAST_ADDR = "255.255.255.255";
@@ -19,12 +20,16 @@ const char *LOCAL_BROADCAST_ADDR = "192.168.1.255";
 const char *SERV_ADDR = "192.168.1.122";
 // const char *SERV_ADDR = "10.55.129.74";
 const int   UDP_PORT = 3000;
-const int TCP_PORT = 51000;
+const int   TCP_PORT = 51000;
 const char *LOOP_BACK = "127.0.0.1";
 const int MAX_REQ = 5;
 
 int main (void) {
 
+//ДОПОЛНИТЕЛЬНО:
+//МОЖНО СПЕЦИФИРОВАТЬ ЗАПРОСЫ ПО ТИПУ HTTP
+//ЗАВЕТСТИ СТАНДАРТНЫЕ СТРУКТУРЫ, ЧТОБЫ ВЫПОЛНЯЛОСЬ ПО УМОЛЧАНИЮ
+//И ДОПОЛНИТЕЛЬНО ВЕСТИ ПОЛЛИНГ ПО ПРИХОДУ НОВОЙ ИНФЫ
 
 
     int tsockfd, usockfd, newsockfd;
@@ -121,7 +126,7 @@ int main (void) {
     while (1) {
 
         time (&end);
-        if (difftime (end, start) > 3) {
+        if (difftime (end, start) > 2) {
             break;
         }
 
@@ -176,18 +181,41 @@ int main (void) {
         TOTAL_CORES += num;
     }
 
-    puts ("CLIENTS:\n");
+    puts ("CLIENTS CORES:\n");
     for (int i = 0; i < clients.size (); ++i) {
         printf ("%d: %d\n", i, clients[i].core_num);
     }
 
 
+    //ДОДЕЛАТЬ РАЗДЕЛЕНИЕ ПО ТАСКАМ!
+///
+// 
+//
+    const int X_MIN = 0;
+    const int X_MAX = 10;
+    const int Y_MIN = 0;
+    const int Y_MAX = 100;
+
+    int x_tmp = X_MIN;
+    int y_tmp = Y_MIN;
+    int x_diff = X_MAX - X_MIN;
+    int y_diff = Y_MAX - Y_MIN;
+
     for (int i = 0; i < clients.size (); ++i) {
 /////////////////////////////////////////////////WRITE QUESTION
-        sprintf (buf, "%d", clients[i].core_num);
-        int buf_size = strlen (buf);
 
-        if (write (clients[i].poll.fd, buf, buf_size) != buf_size) {
+        Query task {};
+        task.x_min = x_tmp;
+        task.x_max = x_tmp + (double)clients[i].core_num / (double)TOTAL_CORES * x_diff;
+        x_tmp = task.x_max;
+
+        task.y_min = y_tmp;
+        task.y_max = y_tmp + (double)clients[i].core_num / (double)TOTAL_CORES * y_diff;
+        y_tmp = task.y_max;
+        // sprintf (buf, "%d", clients[i].core_num);
+        // int buf_size = strlen (buf);
+
+        if (write (clients[i].poll.fd, (void *)&task, sizeof (task)) != sizeof (task)) {
             perror ("SEND ERROR");
             close (tsockfd);
             close (newsockfd);
@@ -235,6 +263,7 @@ int main (void) {
         }
 
     }
+
     close (tsockfd);
     close (newsockfd);
 

@@ -9,6 +9,7 @@
 #include <error.h>
 #include <stdlib.h>
 #include <fcntl.h>
+#include "header.hpp"
 
 
 const char *GLOBAL_BROADCAST_ADDR = "255.255.255.255";
@@ -88,7 +89,7 @@ int main (void) {
 /////////////////////////////////////////////////SERV INFO
     memset (&servaddr, 0, sizeof (servaddr));
     servaddr.sin_family = AF_INET;
-    servaddr.sin_port = htons (TCP_PORT);
+    servaddr.sin_port   = htons (TCP_PORT);
     // if (inet_aton (cliaddr.sin_addr, &servaddr.sin_addr) < 0) {
     //     perror ("ERROR CONVERT IP ADDR SERVER");
     //     close (sockfd);
@@ -108,7 +109,7 @@ int main (void) {
     }
     sprintf (buf, "%d", proccess_max);
     int buf_size = strlen (buf);
-    printf ("PROCESS MAX: %s\n", buf);
+    // printf ("PROCESS MAX: %s\n", buf);
     
     if (write (sockfd, buf, buf_size) != buf_size) {
         perror ("SEND ERROR");
@@ -121,13 +122,17 @@ int main (void) {
     int num = 0;
     int read_size = 0;
 
-    read_size = read (sockfd, buf, sizeof (buf));
-        
+    Query task {};
+    
+    read_size = read (sockfd, (void*)&task, sizeof (task));
     // printf ("%d\n", read_size);
-    num = atoi (buf);
-    printf ("NUMBER: %d\n", num);
-/////////////////////////////////////////////////
-    sprintf (buf, "%d", num);
+    // num = atoi (buf);
+    // printf ("NUMBER: %d\n", num);
+
+/////////////////////////////////////////////////SOLVING
+    int ans = count_monte (proccess_max, task.x_min, task.x_max, task.x_min, task.y_max);
+    
+    sprintf (buf, "%d", ans);
     buf_size = strlen (buf);
 
     if (write (sockfd, buf, buf_size) != buf_size) {
@@ -135,7 +140,6 @@ int main (void) {
         close (sockfd);
         exit (1);
     }
-
 
 
     puts ("END");
