@@ -1,0 +1,8 @@
+FIFO/FIFOReceiver.out
+FIFO/FIFOSender.out
+mqSYSV/mqSYSVReceiver.out
+mqSYSV/mqSYSVSender.out
+shmPOSIX/shmClientPOSIX.out
+shmPOSIX/shmServerPOSIX.out
+input.txt
+FIFO/output.txt
