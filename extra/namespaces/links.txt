@@ -1,0 +1,2 @@
+PIDNS: https://man7.org/tlpi/code/online/dist/namespaces/pidns_init_sleep.c.html
+USERNS: https://man7.org/tlpi/code/online/dist/namespaces/demo_userns.c.html
