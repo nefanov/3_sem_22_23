@@ -1,0 +1,228 @@
+[parent] write: 13 symbols
+[child ] read: 13 symbols
+[parent] write: 13 symbols
+[child ] read: 13 symbols
+[parent] write: 13 symbols
+[child ] read: 13 symbols
+[parent] write: 13 symbols
+[child ] read: 13 symbols
+[parent] write: 13 symbols
+[child ] read: 13 symbols
+[parent] write: 13 symbols
+[child ] read: 13 symbols
+[parent] write: 13 symbols
+[child ] read: 13 symbols
+[parent] write: 13 symbols
+[child ] read: 13 symbols
+[parent] write: 13 symbols
+[child ] read: 13 symbols
+[parent] write: 13 symbols
+[child ] read: 13 symbols
+[parent] write: 13 symbols
+[child ] read: 13 symbols
+[parent] write: 13 symbols
+[child ] read: 13 symbols
+[parent] write: 13 symbols
+[child ] read: 13 symbols
+[parent] write: 13 symbols
+[child ] read: 13 symbols
+[parent] write: 13 symbols
+[child ] read: 13 symbols
+[parent] write: 13 symbols
+[child ] read: 13 symbols
+[parent] write: 13 symbols
+[child ] read: 13 symbols
+[parent] write: 13 symbols
+[child ] read: 13 symbols
+[parent] write: 13 symbols
+[child ] read: 13 symbols
+[parent] write: 13 symbols
+[child ] read: 13 symbols
+[parent] write: 13 symbols
+[child ] read: 13 symbols
+[parent] write: 13 symbols
+[child ] read: 13 symbols
+[parent] write: 13 symbols
+[child ] read: 13 symbols
+[parent] write: 13 symbols
+[child ] read: 13 symbols
+[parent] write: 13 symbols
+[child ] read: 13 symbols
+[parent] write: 13 symbols
+[child ] read: 13 symbols
+[parent] write: 13 symbols
+[child ] read: 13 symbols
+[parent] write: 13 symbols
+[child ] read: 13 symbols
+[parent] write: 13 symbols
+[child ] read: 13 symbols
+[parent] write: 13 symbols
+[child ] read: 13 symbols
+[parent] write: 13 symbols
+[child ] read: 13 symbols
+[parent] write: 13 symbols
+[child ] read: 13 symbols
+[parent] write: 13 symbols
+[child ] read: 13 symbols
+[parent] write: 13 symbols
+[child ] read: 13 symbols
+[parent] write: 13 symbols
+[child ] read: 13 symbols
+[parent] write: 13 symbols
+[child ] read: 13 symbols
+[parent] write: 13 symbols
+[child ] read: 13 symbols
+[parent] write: 13 symbols
+[child ] read: 13 symbols
+[parent] write: 13 symbols
+[child ] read: 13 symbols
+[parent] write: 13 symbols
+[child ] read: 13 symbols
+[parent] write: 13 symbols
+[child ] read: 13 symbols
+[parent] write: 13 symbols
+[child ] read: 13 symbols
+[parent] write: 13 symbols
+[child ] read: 13 symbols
+[parent] write: 13 symbols
+[child ] read: 13 symbols
+[parent] write: 13 symbols
+[child ] read: 13 symbols
+[parent] write: 13 symbols
+[child ] read: 13 symbols
+[parent] write: 13 symbols
+[child ] read: 13 symbols
+[parent] write: 13 symbols
+[child ] read: 13 symbols
+[parent] write: 13 symbols
+[child ] read: 13 symbols
+[parent] write: 13 symbols
+[child ] read: 13 symbols
+[parent] write: 13 symbols
+[child ] read: 13 symbols
+[parent] write: 13 symbols
+[child ] read: 13 symbols
+[parent] write: 13 symbols
+[child ] read: 13 symbols
+[parent] write: 13 symbols
+[child ] read: 13 symbols
+[parent] write: 13 symbols
+[child ] read: 13 symbols
+[parent] write: 13 symbols
+[child ] read: 13 symbols
+[parent] write: 13 symbols
+[child ] read: 13 symbols
+[parent] write: 13 symbols
+[child ] read: 13 symbols
+[parent] write: 13 symbols
+[child ] read: 13 symbols
+[parent] write: 13 symbols
+[child ] read: 13 symbols
+[parent] write: 13 symbols
+[child ] read: 13 symbols
+[parent] write: 13 symbols
+[child ] read: 13 symbols
+[parent] write: 13 symbols
+[child ] read: 13 symbols
+[parent] write: 13 symbols
+[child ] read: 13 symbols
+[parent] write: 13 symbols
+[child ] read: 13 symbols
+[parent] write: 13 symbols
+[child ] read: 13 symbols
+[parent] write: 13 symbols
+[child ] read: 13 symbols
+[parent] write: 13 symbols
+[child ] read: 13 symbols
+[parent] write: 13 symbols
+[child ] read: 13 symbols
+[parent] write: 13 symbols
+[child ] read: 13 symbols
+[parent] write: 13 symbols
+[child ] read: 13 symbols
+[parent] write: 13 symbols
+[child ] read: 13 symbols
+[parent] write: 13 symbols
+[child ] read: 13 symbols
+[parent] write: 13 symbols
+[child ] read: 13 symbols
+[parent] write: 13 symbols
+[child ] read: 13 symbols
+[parent] write: 13 symbols
+[child ] read: 13 symbols
+[parent] write: 13 symbols
+[child ] read: 13 symbols
+[parent] write: 13 symbols
+[child ] read: 13 symbols
+[parent] write: 13 symbols
+[child ] read: 13 symbols
+[parent] write: 13 symbols
+[child ] read: 13 symbols
+[parent] write: 13 symbols
+[child ] read: 13 symbols
+[parent] write: 13 symbols
+[child ] read: 13 symbols
+[parent] write: 13 symbols
+[child ] read: 13 symbols
+[parent] write: 13 symbols
+[child ] read: 13 symbols
+[parent] write: 13 symbols
+[child ] read: 13 symbols
+[parent] write: 13 symbols
+[child ] read: 13 symbols
+[parent] write: 13 symbols
+[child ] read: 13 symbols
+[parent] write: 13 symbols
+[child ] read: 13 symbols
+[parent] write: 13 symbols
+[child ] read: 13 symbols
+[parent] write: 13 symbols
+[child ] read: 13 symbols
+[parent] write: 13 symbols
+[child ] read: 13 symbols
+[parent] write: 13 symbols
+[child ] read: 13 symbols
+[parent] write: 13 symbols
+[child ] read: 13 symbols
+[parent] write: 13 symbols
+[child ] read: 13 symbols
+[parent] write: 13 symbols
+[child ] read: 13 symbols
+[parent] write: 13 symbols
+[child ] read: 13 symbols
+[parent] write: 13 symbols
+[child ] read: 13 symbols
+[parent] write: 13 symbols
+[child ] read: 13 symbols
+[parent] write: 13 symbols
+[child ] read: 13 symbols
+[parent] write: 13 symbols
+[child ] read: 13 symbols
+[parent] write: 13 symbols
+[child ] read: 13 symbols
+[parent] write: 13 symbols
+[child ] read: 13 symbols
+[parent] write: 13 symbols
+[child ] read: 13 symbols
+[parent] write: 13 symbols
+[child ] read: 13 symbols
+[parent] write: 13 symbols
+[child ] read: 13 symbols
+[parent] write: 13 symbols
+[child ] read: 13 symbols
+[parent] write: 13 symbols
+[child ] read: 13 symbols
+[parent] write: 13 symbols
+[child ] read: 13 symbols
+[parent] write: 13 symbols
+[child ] read: 13 symbols
+[parent] write: 13 symbols
+[child ] read: 13 symbols
+[parent] write: 13 symbols
+[child ] read: 13 symbols
+[parent] write: 13 symbols
+[child ] read: 13 symbols
+[parent] write: 3 symbols
+[child ] read: 3 symbols
+parent ended
+child ended
