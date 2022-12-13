@@ -58,21 +58,23 @@ int main() {
             if (READ_FLAG == 1 && END_FLAG == 0) {
                 READ_FLAG = 0;
 
-                union sigval value;
-
-                // fprintf(log, "1\n");
+                union sigval value = {0};
 
                 res = fwrite(shmP, 1, PAGE_SIZE, dst);
                 ASSERTED(fwrite, res, 0, -1);
                 sigqueue(pPid, SIGUSR1, value);
             } else if (END_FLAG == 1) {
-                fprintf(log, "Файл был полностью прочитан\n");      
+                FILE *log = fopen("/home/oleg/tmp/log.txt", "a");
+                ASSERTED(fopen, log, NULL, -1);
+
+                fprintf(log, "Файл был полностью прочитан\n");   
+
+                fclose(log);   
                 
                 shmdt(shmP);
                 shmctl(shmId, IPC_RMID, NULL);
                 
                 fclose(dst);
-                fclose(log);
 
                 break;
             } 
@@ -105,7 +107,12 @@ int main() {
                 res = fread(shmP, 1, PAGE_SIZE, src);
 
                 if (res == 0) {
+                    FILE *log = fopen("/home/oleg/tmp/log.txt", "a");
+                    ASSERTED(fopen, log, NULL, -1);
+
                     fprintf(log, "Файл был полностью записан\n");
+
+                    fclose(log);
 
                     shmdt(shmP);
                     
@@ -113,7 +120,12 @@ int main() {
 
                     break;
                 } else {
+                    FILE *log = fopen("/home/oleg/tmp/log.txt", "a");
+                    ASSERTED(fopen, log, NULL, -1);
+
                     fprintf(log, "Была совершена запись на страницу %d со смещением %d\n", nPage, offset);
+
+                    fclose(log);
 
                     nPage++;
 
