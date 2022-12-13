@@ -1,0 +1,1 @@
+![Img alt](https://github.com/BatyaPng/3_sem_22_23/blob/main/task4/solution/result.png)
