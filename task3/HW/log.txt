@@ -1,0 +1,15 @@
+FILE->SIZE = 33,6 MB
+FIFO
+SIZE        TIME
+256         0100  + 0097 
+4096        0034  + 0056 
+65536       0020  + 0042 
+Shared memory
+SIZE        TIME
+256         3701  + 3494 
+4096        0331  + 0230 
+65536       0074  + 0029 
+Massege Queue
+SIZE        TIME
+256         0109  + 0073 
+4096        0053  + 0038 
