@@ -16,12 +16,12 @@
 
 
 const char *GLOBAL_BROADCAST_ADDR = "255.255.255.255";
-const char *LOCAL_BROADCAST_ADDR = "192.168.1.255";
-const char *SERV_ADDR = "192.168.1.122";
-// const char *SERV_ADDR = "10.55.129.74";
+// const char *LOCAL_BROADCAST_ADDR = "192.168.1.255";
+// const char *SERV_ADDR = "192.168.1.58";
+const char *SERV_ADDR = "10.55.128.220";
 const int   UDP_PORT = 3000;
 const int   TCP_PORT = 51000;
-const char *LOOP_BACK = "127.0.0.1";
+// const char *LOOP_BACK = "127.0.0.1";
 const int MAX_REQ = 5;
 
 int main (void) {
@@ -89,7 +89,7 @@ int main (void) {
     memset (&their_addr, 0, sizeof (their_addr));
     their_addr.sin_family = AF_INET;
     their_addr.sin_port   = htons (UDP_PORT);
-    if (inet_aton (SERV_ADDR, &their_addr.sin_addr) < 0) {
+    if (inet_aton (GLOBAL_BROADCAST_ADDR, &their_addr.sin_addr) < 0) {
     // if (inet_aton (LOCAL_BROADCAST_ADDR, &their_addr.sin_addr) < 0) {
         perror ("ERROR CONVERT IP ADDR SERVER");
         close (usockfd);

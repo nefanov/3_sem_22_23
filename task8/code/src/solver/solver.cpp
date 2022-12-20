@@ -14,10 +14,10 @@
 
 const char *GLOBAL_BROADCAST_ADDR = "255.255.255.255";
 // const char *LOCAL_BROADCAST_ADDR  = "192.168.1.255";
-const char *SERV_ADDR = "192.168.1.122";
+const char *SERV_ADDR = "172.20.10.10";
 // const char *SERV_ADDR = "10.55.129.74";
 const int   UDP_PORT = 3000;
-const char *LOOP_BACK = "127.0.0.1";
+// const char *LOOP_BACK = "127.0.0.1";
 const int TCP_PORT = 51000;
 
 int main (void) {
@@ -37,15 +37,15 @@ int main (void) {
     memset (&servaddr, 0, sizeof (servaddr));
     servaddr.sin_family = AF_INET;
     servaddr.sin_port = htons (UDP_PORT);
-    if (inet_aton (SERV_ADDR, &servaddr.sin_addr) < 0) {
+    if (inet_aton (GLOBAL_BROADCAST_ADDR, &servaddr.sin_addr) < 0) {
         perror ("ERROR CONVERT IP ADDR SERVER");
         close (sockfd);
         exit (0);
     }
 
     int optval = 1;
-    if (setsockopt(sockfd, SOL_SOCKET, SO_REUSEADDR, &optval, sizeof (optval)) != 0) {
-        perror("listener: setsockopt");
+    if (setsockopt (sockfd, SOL_SOCKET, SO_REUSEADDR, &optval, sizeof (optval)) != 0) {
+        perror ("listener: setsockopt");
         exit (1);
     }   
 
