@@ -29,13 +29,19 @@ static void skeleton_daemon()
     pid = fork();
 
     if (pid < 0)
-        exit(EXIT_FAILURE);
+    {
+        exit(1);
+    }
    
     if (pid > 0)
-        exit(EXIT_SUCCESS);
+    {
+        exit(0);
+    }
     
     if (setsid() < 0)
-        exit(EXIT_FAILURE);
+    {
+        exit(1);
+    }
     
     signal(SIGCHLD, SIG_IGN);
     signal(SIGHUP, SIG_IGN);
@@ -43,10 +49,14 @@ static void skeleton_daemon()
     pid = fork();
     
     if (pid < 0)
-        exit(EXIT_FAILURE);
+    {
+        exit(1);
+    }
     
     if (pid > 0)
-        exit(EXIT_SUCCESS);
+    {
+        exit(0);
+    }
 
     umask(0);
     
