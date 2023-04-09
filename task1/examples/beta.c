@@ -21,57 +21,23 @@ Input descriptor for current child process: 3
 
 void seq_pipe(char ***cmd)
 {
-  int   p[2];
-  pid_t pid;
-  int   fd_in = 0;
-  int   i = 0;
+    int   pipe_fd[2] = {-1, -1};
+    pid_t pid   ;
+    int   fd_in = 0;
+    int   i = 0;
 
-  while (cmd[i] != NULL)
-  {
-    pipe(p);
     
-    printf("New used pipe descriptors: %d %d\n",p[0],p[1]);
-    printf("Input descriptor for current child process: %d\n", fd_in);
+  
 
-    if ((pid = fork()) == -1) 
-    {
-          exit(1);
-    } 
-    else if (pid == 0) 
-    {
-        if (i > 0)
-          dup2(fd_in,  0); //d) newfd <--copy( oldfd ) )
-        
-        fprintf(stdout, "%d\n", fd_in);
-
-        if (cmd[i+1] != NULL)
-          dup2(p[1], 1); //stdout -> write to pipe
-
-        close(p[0]);
-        
-        execvp((cmd)[i][0], cmd[i]);
-        exit(2);
-    } 
-    else
-    {
-      wait(NULL);
-      close(p[1]);
-      
-      if (i>0)
-        close(fd_in); // old pipe from previous step is not used further, and can be destroyed
-      
-      fd_in = p[0]; //fd_in <--read from pipe
-      i++;
-    }
-}
-  return;
+    return;
 }
 
 int main()
 {
   char *ls[] = {"/bin/ls","-ltr",".", NULL};
   char *grep1[] = {"grep","rw",NULL};
-  char **cmd[] = {ls, grep1, NULL};
-  seq_pipe(cmd);  char *grep2[] = {"grep","1", NULL};
+  char *grep2[] = {"grep","1", NULL};
   char *grep3[] = {"grep", "89", NULL};
+  char **cmd[] = {ls, grep1, grep2, grep3, NULL};
+  seq_pipe(cmd);
 }
