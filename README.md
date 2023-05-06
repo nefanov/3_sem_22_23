@@ -1,2 +1,2 @@
 # 3_sem_22_23
-3 sem
+This repository was created for academic assignments of the 3rd semester.
