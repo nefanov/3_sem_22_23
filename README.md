@@ -1,2 +1,2 @@
-# 3_sem_22_23
-3 sem
+# Task for OS course in MIPT 3_sem_22_23
+There are some solved tasks from OS coure...
